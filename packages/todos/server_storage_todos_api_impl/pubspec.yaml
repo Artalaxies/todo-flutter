@@ -1,0 +1,31 @@
+name: server_storage_todos_api_impl
+description: The interface and models for an API providing access to todos.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^0.13.5
+  equatable: ^2.0.3
+  json_annotation: ^4.6.0
+  meta: ^1.7.0
+  uuid: ^3.0.6
+  flutter_bloc: ^8.1.1
+  bloc_concurrency: ^0.2.0
+  firebase_core: ^2.4.0
+  cloud_functions: ^4.0.6
+  firebase_auth: ^4.2.3
+
+  local_storage_todos_api_impl:
+    path: ../local_storage_todos_api_impl
+
+
+dev_dependencies:
+  build_runner: ^2.2.0
+  json_serializable: ^6.3.1
+  test: ^1.21.4
+  very_good_analysis: ^3.0.2
