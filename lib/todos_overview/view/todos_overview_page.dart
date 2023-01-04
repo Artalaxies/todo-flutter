@@ -63,7 +63,7 @@ class _TodosOverviewState extends State<TodosOverviewView> {
         listeners: [
           BlocListener<TodosOverviewBloc, TodosOverviewState>(
             listenWhen: (previous, current) =>
-                previous.status != current.status,
+            previous.status != current.status,
             listener: (context, state) {
               if (state.status == TodosOverviewStatus.failure) {
                 ScaffoldMessenger.of(context)
@@ -78,7 +78,7 @@ class _TodosOverviewState extends State<TodosOverviewView> {
           ),
           BlocListener<TodosOverviewBloc, TodosOverviewState>(
             listenWhen: (previous, current) =>
-                previous.lastDeletedTodo != current.lastDeletedTodo &&
+            previous.lastDeletedTodo != current.lastDeletedTodo &&
                 current.lastDeletedTodo != null,
             listener: (context, state) {
               final deletedTodo = state.lastDeletedTodo!;
@@ -137,51 +137,51 @@ class _TodosOverviewState extends State<TodosOverviewView> {
                 ui.TextStyle(color: Colors.blue);
 
             return ColoredBox(
-                color: const Color(0xAAF1E2B1),
-                child: Stack(children: [
-                  CustomPaint(
-                    painter: BackgroundCustomPainter(offsets),
-                    child: ScrollConfiguration(
-                      behavior: MyCustomScrollBehavior(),
-                      child: ListView.builder(
-                        reverse: true,
-                        physics: const BouncingScrollPhysics(),
-                        controller: _scrollController,
-                        itemBuilder: (BuildContext context, int index) {
-                          // final todo = Todo(
-                          //   title: 'test$index',
-                          // );
-                          final indexDate = date.subtract(
-                            Duration(minutes: (index - 1) * 5),
-                          );
-                          return CustomPaint(
-                            painter: TimeRulerCustomPainter(
-                                indexDate, captionTextStyle),
-                            child: Column(
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(top: 20),
-                                ),
-                                Container(
-                                  constraints:
-                                      const BoxConstraints(minHeight: 44),
-                                ),
-                                // TodoListTile(
-                                //   todo: t,
-                                // ),
-                              ],
+              color: const Color(0xAAF1E2B1),
+              child: CustomPaint(
+                painter: BackgroundCustomPainter(offsets),
+                child:
+                ScrollConfiguration(
+                  behavior: MyCustomScrollBehavior(),
+                  child: ListView.builder(
+                    reverse: true,
+                    physics: const BouncingScrollPhysics(),
+                    controller: _scrollController,
+                    itemBuilder: (BuildContext context, int index) {
+                      // final todo = Todo(
+                      //   title: 'test$index',
+                      // );
+                      final indexDate = date.subtract(
+                        Duration(minutes: (index - 1) * 5),
+                      );
+                      return CustomPaint(
+                        painter: TimeRulerCustomPainter(
+                            indexDate, captionTextStyle),
+                        child: Column(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(top: 20),
                             ),
-                          );
-                        },
-                        itemCount: amount,
-                        padding: const EdgeInsets.only(
-                          top: 10,
-                          bottom: 500,
+                            Container(
+                              constraints:
+                              const BoxConstraints(minHeight: 44),
+                            ),
+                            // TodoListTile(
+                            //   todo: t,
+                            // ),
+                          ],
                         ),
-                      ),
+                      );
+                    },
+                    itemCount: amount,
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      bottom: 500,
                     ),
                   ),
-                ],),);
+                ),
+              ),
+            );
           },
         ),
       ),
@@ -227,14 +227,35 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
   // Override behavior methods and getters like dragDevices
   @override
   Set<PointerDeviceKind> get dragDevices => {
-        PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
-        // etc.
-      };
-  @override
-  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+    // etc.
+  };
 
-    return child;
+  @override
+  Widget buildScrollbar(
+      BuildContext context,
+      Widget child,
+      ScrollableDetails details,
+      ) {
+    final actionButton = details.controller.offset > 100
+        ? FloatingActionButton(
+      onPressed: () {
+        details.controller.jumpTo(0);
+      },
+    )
+        : FloatingActionButton(
+      mini: true,
+      onPressed: () {
+        details.controller.jumpTo(0);
+      },
+    );
+
+    return Scaffold(
+      body: child,
+      floatingActionButton: actionButton,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+    );
   }
 }
 
@@ -268,7 +289,7 @@ class TimeRulerCustomPainter extends CustomPainter {
       Offset(size.width - 20, 18),
       Paint()
         ..color = date.difference(DateTime.now()).inMinutes < 5 &&
-                date.difference(DateTime.now()).inMinutes > 0
+            date.difference(DateTime.now()).inMinutes > 0
             ? Colors.blue
             : Colors.black38
         ..strokeWidth = 2,
@@ -276,10 +297,10 @@ class TimeRulerCustomPainter extends CustomPainter {
     if (date.hour == 12) {
       canvas.drawParagraph(
         (ParagraphBuilder(ParagraphStyle())
-              ..pushStyle(captionTextStyle)
-              ..addText(
-                'Noon Time',
-              ))
+          ..pushStyle(captionTextStyle)
+          ..addText(
+            'Noon Time',
+          ))
             .build()
           ..layout(const ParagraphConstraints(width: 100)),
         Offset(size.width / 2 - 20, 10),
@@ -287,10 +308,10 @@ class TimeRulerCustomPainter extends CustomPainter {
     }
     canvas.drawParagraph(
       (ParagraphBuilder(ParagraphStyle())
-            ..pushStyle(captionTextStyle)
-            ..addText(
-              '${date.hour.toString()}:$formattedMinutes',
-            ))
+        ..pushStyle(captionTextStyle)
+        ..addText(
+          '${date.hour.toString()}:$formattedMinutes',
+        ))
           .build()
         ..layout(const ParagraphConstraints(width: 100)),
       const Offset(0, 10),
