@@ -45,6 +45,8 @@ class _TodosOverviewState extends State<TodosOverviewView> {
     _scrollController.addListener(_onScroll);
   }
 
+  int amount = 50;
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -135,52 +137,51 @@ class _TodosOverviewState extends State<TodosOverviewView> {
                 ui.TextStyle(color: Colors.blue);
 
             return ColoredBox(
-              color: const Color(0xAAF1E2B1),
-              child: CustomPaint(
-                painter: BackgroundCustomPainter(offsets),
-                child: ScrollConfiguration(
-                  behavior: MyCustomScrollBehavior(),
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    controller: _scrollController,
-                    itemBuilder: (BuildContext context, int index) {
-                      // final todo = Todo(
-                      //   title: 'test$index',
-                      // );
-                      final indexDate = date
-                          .subtract(
-                            const Duration(hours: 1),
-                          )
-                          .add(
-                            Duration(minutes: index * 5),
+                color: const Color(0xAAF1E2B1),
+                child: Stack(children: [
+                  CustomPaint(
+                    painter: BackgroundCustomPainter(offsets),
+                    child: ScrollConfiguration(
+                      behavior: MyCustomScrollBehavior(),
+                      child: ListView.builder(
+                        reverse: true,
+                        physics: const BouncingScrollPhysics(),
+                        controller: _scrollController,
+                        itemBuilder: (BuildContext context, int index) {
+                          // final todo = Todo(
+                          //   title: 'test$index',
+                          // );
+                          final indexDate = date.subtract(
+                            Duration(minutes: (index - 1) * 5),
                           );
-                      return CustomPaint(
-                        painter:
-                            TimeRulerCustomPainter(indexDate, captionTextStyle),
-                        child: Column(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(top: 20),
+                          return CustomPaint(
+                            painter: TimeRulerCustomPainter(
+                                indexDate, captionTextStyle),
+                            child: Column(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 20),
+                                ),
+                                Container(
+                                  constraints:
+                                      const BoxConstraints(minHeight: 44),
+                                ),
+                                // TodoListTile(
+                                //   todo: t,
+                                // ),
+                              ],
                             ),
-                            Container(
-                              constraints: const BoxConstraints(minHeight: 44),
-                            ),
-                            // TodoListTile(
-                            //   todo: t,
-                            // ),
-                          ],
+                          );
+                        },
+                        itemCount: amount,
+                        padding: const EdgeInsets.only(
+                          top: 10,
+                          bottom: 500,
                         ),
-                      );
-                    },
-                    itemCount: 50,
-                    padding: const EdgeInsets.only(
-                      top: 10,
-                      bottom: 10,
+                      ),
                     ),
                   ),
-                ),
-              ),
-            );
+                ],),);
           },
         ),
       ),
@@ -198,17 +199,21 @@ class _TodosOverviewState extends State<TodosOverviewView> {
   void _onScroll() {
     if (_isBottom) {
       d.log('is bottom');
+
+      setState(() {
+        amount += 20;
+      });
     }
-    if (_isTop) {
-      d.log('is top');
-    }
+    // if (_isTop) {
+    //   d.log('is top');
+    // }
   }
 
-  bool get _isTop {
-    if (!_scrollController.hasClients) return false;
-    final currentScroll = _scrollController.offset;
-    return currentScroll < 100;
-  }
+  // bool get _isTop {
+  //   if (!_scrollController.hasClients) return false;
+  //   final currentScroll = _scrollController.offset;
+  //   return currentScroll < 100;
+  // }
 
   bool get _isBottom {
     if (!_scrollController.hasClients) return false;
@@ -226,6 +231,11 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
         PointerDeviceKind.mouse,
         // etc.
       };
+  @override
+  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+
+    return child;
+  }
 }
 
 class BackgroundCustomPainter extends CustomPainter {
