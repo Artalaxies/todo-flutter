@@ -33,6 +33,19 @@ class TodosOverviewTodoDeleted extends TodosOverviewEvent {
   List<Object> get props => [todo];
 }
 
+class TodosOverviewTodoAddRequested extends TodosOverviewEvent {
+  const TodosOverviewTodoAddRequested();
+}
+
+class TodosOverviewTodoChanged extends TodosOverviewEvent {
+  const TodosOverviewTodoChanged(this.todo);
+
+  final Todo todo;
+
+  @override
+  List<Object> get props => [todo];
+}
+
 class TodosOverviewUndoDeletionRequested extends TodosOverviewEvent {
   const TodosOverviewUndoDeletionRequested();
 }
@@ -53,3 +66,8 @@ class TodosOverviewToggleAllRequested extends TodosOverviewEvent {
 class TodosOverviewClearCompletedRequested extends TodosOverviewEvent {
   const TodosOverviewClearCompletedRequested();
 }
+
+
+// class TodosOverviewSyncRequested extends TodosOverviewEvent {
+//   const TodosOverviewSyncRequested();
+// }

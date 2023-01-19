@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todos/app/app.dart';
 import 'package:todos/app/app_bloc_observer.dart';
 import 'package:todos_api/todos_api.dart';
 import 'package:todos_repository/todos_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 void bootstrap({required TodosApi todosApi, FirebaseAuth? auth}) {
   FlutterError.onError = (details) {

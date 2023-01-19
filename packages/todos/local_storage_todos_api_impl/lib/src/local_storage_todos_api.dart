@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +29,7 @@ class LocalStorageTodosApi extends TodosApi {
   static const kTodosCollectionKey = '__todos_collection_key__';
 
   String? _getValue(String key) => _plugin.getString(key);
+
   Future<void> _setValue(String key, String value) =>
       _plugin.setString(key, value);
 
@@ -101,5 +101,9 @@ class LocalStorageTodosApi extends TodosApi {
   }
 
   @override
-  Future<void> sync() async {}
+  Future<void> sync(List<Todo> todoList) async {
+    for (final todo in todoList) {
+      await saveTodo(todo);
+    }
+  }
 }

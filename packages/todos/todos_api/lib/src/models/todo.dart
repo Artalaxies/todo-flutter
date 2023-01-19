@@ -28,6 +28,7 @@ class Todo extends Equatable {
     required this.title,
     this.description = '',
     this.isCompleted = false,
+    this.date,
   })  : assert(
           id == null || id.isNotEmpty,
           'id can not be null and should be empty',
@@ -54,6 +55,11 @@ class Todo extends Equatable {
   /// Defaults to `false`.
   final bool isCompleted;
 
+  /// The date of todos scheduled.
+  ///
+  /// Defaults to an empty string.
+  final DateTime? date;
+
   /// Returns a copy of this todos with the given values updated.
   ///
   /// {@macro todos}
@@ -62,13 +68,14 @@ class Todo extends Equatable {
     String? title,
     String? description,
     bool? isCompleted,
+    DateTime? date,
   }) {
     return Todo(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      isCompleted: isCompleted ?? this.isCompleted,
-    );
+        id: id ?? this.id,
+        title: title ?? this.title,
+        description: description ?? this.description,
+        isCompleted: isCompleted ?? this.isCompleted,
+        date: date ?? this.date,);
   }
 
   /// Deserializes the given [JsonMap] into a [Todo].

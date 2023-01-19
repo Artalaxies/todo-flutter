@@ -1,11 +1,14 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '/todos_overview/todos_overview.dart';
+import 'package:todos/todos_overview/todos_overview.dart';
 
-import 'package:todos_api/todos_api.dart';
 import 'package:todos_repository/todos_repository.dart';
 
 part 'todos_overview_event.dart';
+
 part 'todos_overview_state.dart';
 
 class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
@@ -15,14 +18,22 @@ class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
         super(const TodosOverviewState()) {
     on<TodosOverviewSubscriptionRequested>(_onSubscriptionRequested);
     on<TodosOverviewTodoCompletionToggled>(_onTodoCompletionToggled);
+    on<TodosOverviewTodoAddRequested>(_onTodoAddRequest);
     on<TodosOverviewTodoDeleted>(_onTodoDeleted);
     on<TodosOverviewUndoDeletionRequested>(_onUndoDeletionRequested);
     on<TodosOverviewFilterChanged>(_onFilterChanged);
     on<TodosOverviewToggleAllRequested>(_onToggleAllRequested);
     on<TodosOverviewClearCompletedRequested>(_onClearCompletedRequested);
+    on<TodosOverviewTodoChanged>(_onTodoChanged);
+    // on<TodosOverviewSyncRequested>(_onSyncRequested);
   }
 
   final TodosRepository _todosRepository;
+
+  Future<void> _onTodoChanged(
+    TodosOverviewTodoChanged event,
+    Emitter<TodosOverviewState> emit,
+  ) async {}
 
   Future<void> _onSubscriptionRequested(
     TodosOverviewSubscriptionRequested event,
@@ -48,6 +59,13 @@ class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
   ) async {
     final newTodo = event.todo.copyWith(isCompleted: event.isCompleted);
     await _todosRepository.saveTodo(newTodo);
+  }
+
+  Future<void> _onTodoAddRequest(
+    TodosOverviewTodoAddRequested event,
+    Emitter<TodosOverviewState> emit,
+  ) async {
+    await _todosRepository.saveTodo(Todo(title: ''));
   }
 
   Future<void> _onTodoDeleted(
@@ -93,4 +111,22 @@ class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
   ) async {
     await _todosRepository.clearCompleted();
   }
+
+  // Future<void> _onSyncRequested(
+  //   TodosOverviewSyncRequested event,
+  //   Emitter<TodosOverviewState> emit,
+  // ) async {
+  //   emit(state.copyWith(status: () => TodosOverviewStatus.loading));
+  //   await _todosRepository.sync(state.todos).then(
+  //     (value) {
+  //       emit(state.copyWith(
+  //           status: () => TodosOverviewStatus.success, todos: () => value));
+  //     },
+  //     onError: (e) {
+  //       emit(state.copyWith(
+  //         status: () => TodosOverviewStatus.failure,
+  //       ));
+  //     },
+  //   );
+  // }
 }

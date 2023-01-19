@@ -8,12 +8,13 @@ abstract class EditTodoEvent extends Equatable {
 }
 
 class EditTodoTitleChanged extends EditTodoEvent {
-  const EditTodoTitleChanged(this.title);
+  const EditTodoTitleChanged(this.id,this.title);
 
   final String title;
+  final String id;
 
   @override
-  List<Object> get props => [title];
+  List<Object> get props => [id,title];
 }
 
 class EditTodoDescriptionChanged extends EditTodoEvent {

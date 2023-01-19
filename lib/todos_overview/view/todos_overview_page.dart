@@ -1,323 +1,164 @@
-import 'dart:developer' as d;
-import 'dart:math';
-import 'dart:ui';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todos/app/todos_sync_bloc/todos_sync_bloc.dart';
-import 'package:todos/app/todos_sync_bloc/todos_sync_state.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:todos/app/schedule_bloc/schedule_bloc.dart';
+import 'package:todos/app/schedule_bloc/schedule_event.dart';
+import 'package:todos/app/schedule_bloc/schedule_state.dart';
+import 'package:todos/app/todo_bloc/todo_bloc.dart';
 import 'package:todos/l10n/l10n.dart';
 import 'package:todos/todos_overview/todos_overview.dart';
+import 'package:todos/todos_overview/view/todos_overview_infinite_time_view.dart';
 import 'package:todos_repository/todos_repository.dart';
-import 'dart:ui' as ui;
 
 class TodosOverviewPage extends StatelessWidget {
   const TodosOverviewPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => TodosOverviewBloc(
-            todosRepository: context.read<TodosRepository>(),
-          )..add(const TodosOverviewSubscriptionRequested()),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => TodosOverviewBloc(
+        todosRepository: context.read<TodosRepository>(),
+      )..add(const TodosOverviewSubscriptionRequested()),
       child: TodosOverviewView(),
     );
   }
 }
 
-class TodosOverviewView extends StatefulWidget {
-  const TodosOverviewView({super.key});
+class TodosOverviewView extends StatelessWidget {
+  TodosOverviewView({super.key});
 
-  @override
-  State<StatefulWidget> createState() => _TodosOverviewState();
-}
-
-class _TodosOverviewState extends State<TodosOverviewView> {
+  final now = DateTime.now();
   final _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_onScroll);
-  }
-
-  int amount = 50;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    context
+        .read<ScheduleBloc>()
+        .add(const ScheduleCheckupStarted(duration: 60));
 
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(l10n.todosOverviewAppBarTitle),
-      //   actions: const [
-      //     TodosOverviewFilterButton(),
-      //     TodosOverviewOptionsButton(),
-      //   ],
-      // ),
-      body: MultiBlocListener(
-        listeners: [
-          BlocListener<TodosOverviewBloc, TodosOverviewState>(
-            listenWhen: (previous, current) =>
-            previous.status != current.status,
-            listener: (context, state) {
-              if (state.status == TodosOverviewStatus.failure) {
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.todosOverviewErrorSnackbarText),
-                    ),
-                  );
-              }
-            },
-          ),
-          BlocListener<TodosOverviewBloc, TodosOverviewState>(
-            listenWhen: (previous, current) =>
-            previous.lastDeletedTodo != current.lastDeletedTodo &&
-                current.lastDeletedTodo != null,
-            listener: (context, state) {
-              final deletedTodo = state.lastDeletedTodo!;
-              final messenger = ScaffoldMessenger.of(context);
-              messenger
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<TodosOverviewBloc, TodosOverviewState>(
+          listenWhen: (previous, current) => previous.status != current.status,
+          listener: (context, state) {
+            if (state.status == TodosOverviewStatus.failure) {
+              ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
                   SnackBar(
-                    content: Text(
-                      l10n.todosOverviewTodoDeletedSnackbarText(
-                        deletedTodo.title,
-                      ),
-                    ),
-                    action: SnackBarAction(
-                      label: l10n.todosOverviewUndoDeletionButtonText,
-                      onPressed: () {
-                        messenger.hideCurrentSnackBar();
-                        context
-                            .read<TodosOverviewBloc>()
-                            .add(const TodosOverviewUndoDeletionRequested());
-                      },
-                    ),
+                    content: Text(l10n.todosOverviewErrorSnackbarText),
                   ),
                 );
-            },
-          ),
-          BlocListener<TodosSyncBloc, TodosSyncState>(
-            listener: (context, state) {},
-          ),
-        ],
-        child: BlocBuilder<TodosOverviewBloc, TodosOverviewState>(
-          builder: (context, state) {
-            // if (state.todos.isEmpty) {
-            //   if (state.status == TodosOverviewStatus.loading) {
-            //     return const Center(child: CupertinoActivityIndicator());
-            //   } else if (state.status != TodosOverviewStatus.success) {
-            //     return const SizedBox();
-            //   } else {
-            //     return Center(
-            //       child: Text(
-            //         l10n.todosOverviewEmptyText,
-            //         style: Theme.of(context).textTheme.caption,
-            //       ),
-            //     );
-            //   }
-            // }
-            final date = DateTime.now();
-            final offsets = Iterable.generate(1000).map((e) {
-              final size = MediaQuery.of(context).size;
-              final py = Random().nextInt(size.height.toInt() - 1).toDouble();
-              final px = Random().nextInt(size.width.toInt() - 1).toDouble();
-              return Offset(px, py);
-            }).toList();
-            final theme = Theme.of(context);
-            final captionTextStyle = theme.textTheme.caption?.getTextStyle() ??
-                ui.TextStyle(color: Colors.blue);
-
-            return ColoredBox(
-              color: const Color(0xAAF1E2B1),
-              child: CustomPaint(
-                painter: BackgroundCustomPainter(offsets),
-                child:
-                ScrollConfiguration(
-                  behavior: MyCustomScrollBehavior(),
-                  child: ListView.builder(
-                    reverse: true,
-                    physics: const BouncingScrollPhysics(),
-                    controller: _scrollController,
-                    itemBuilder: (BuildContext context, int index) {
-                      // final todo = Todo(
-                      //   title: 'test$index',
-                      // );
-                      final indexDate = date.subtract(
-                        Duration(minutes: (index - 1) * 5),
-                      );
-                      return CustomPaint(
-                        painter: TimeRulerCustomPainter(
-                            indexDate, captionTextStyle),
-                        child: Column(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(top: 20),
-                            ),
-                            Container(
-                              constraints:
-                              const BoxConstraints(minHeight: 44),
-                            ),
-                            // TodoListTile(
-                            //   todo: t,
-                            // ),
-                          ],
-                        ),
-                      );
-                    },
-                    itemCount: amount,
-                    padding: const EdgeInsets.only(
-                      top: 10,
-                      bottom: 500,
+              context.read<ScheduleBloc>().add(const ScheduleCheckupStopped());
+            }
+          },
+        ),
+        BlocListener<TodosOverviewBloc, TodosOverviewState>(
+          listenWhen: (previous, current) =>
+              previous.lastDeletedTodo != current.lastDeletedTodo &&
+              current.lastDeletedTodo != null,
+          listener: (context, state) {
+            final deletedTodo = state.lastDeletedTodo!;
+            final messenger = ScaffoldMessenger.of(context);
+            messenger
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(
+                    l10n.todosOverviewTodoDeletedSnackbarText(
+                      deletedTodo.title,
                     ),
+                  ),
+                  action: SnackBarAction(
+                    label: l10n.todosOverviewUndoDeletionButtonText,
+                    onPressed: () {
+                      messenger.hideCurrentSnackBar();
+                      context
+                          .read<TodosOverviewBloc>()
+                          .add(const TodosOverviewUndoDeletionRequested());
+                    },
+                  ),
+                ),
+              );
+          },
+        ),
+        BlocListener<ScheduleBloc, ScheduleState>(
+          listener: (context, state) {
+            if (state.status == ScheduleStatus.inProgress) {
+              context.read<TodoBloc>().add(TodoSyncRequest());
+            }
+          },
+        ),
+      ],
+      child: BlocBuilder<TodosOverviewBloc, TodosOverviewState>(
+        builder: (context, state) {
+          final theme = Theme.of(context);
+          final size = MediaQuery.of(context).size;
+
+          return TodosOverviewBackgroundBox(
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: todosOverviewAppbar(
+                context,
+                _scrollController,
+              ),
+              bottomNavigationBar: BottomAppBar(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        color: Colors.black,
+                        icon: const Icon(Icons.list),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          log('canUndo: ${context.read<TodoBloc>().canUndo}');
+                          context.read<TodoBloc>().undo();
+                        },
+                        color: Colors.black,
+                        icon: const Icon(Icons.arrow_back),
+                      ),
+                      Text(
+                        '${
+                            state.
+                            todos.
+                            filter((t) => t.date?.compareTo(now) == -1)
+                                .length} Past',
+                        style: theme.textTheme.caption?.copyWith(
+                          color: Colors.grey,
+                          fontSize: 40,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            );
-          },
-        ),
+              body: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  TodosOverviewInfiniteTimeView(
+                    controller: _scrollController,
+                    now: context.read<ScheduleBloc>().state.datetime,
+                    padding: MediaQuery.of(context).padding.top,
+                  ),
+                  TodosDraftContainer(
+                    todos: state.todos.filter((e) => e.date == null).toList(),
+                    height: size.height / 4,
+                  )
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
-
-  @override
-  void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (_isBottom) {
-      d.log('is bottom');
-
-      setState(() {
-        amount += 20;
-      });
-    }
-    // if (_isTop) {
-    //   d.log('is top');
-    // }
-  }
-
-  // bool get _isTop {
-  //   if (!_scrollController.hasClients) return false;
-  //   final currentScroll = _scrollController.offset;
-  //   return currentScroll < 100;
-  // }
-
-  bool get _isBottom {
-    if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.9);
-  }
-}
-
-class MyCustomScrollBehavior extends MaterialScrollBehavior {
-  // Override behavior methods and getters like dragDevices
-  @override
-  Set<PointerDeviceKind> get dragDevices => {
-    PointerDeviceKind.touch,
-    PointerDeviceKind.mouse,
-    // etc.
-  };
-
-  @override
-  Widget buildScrollbar(
-      BuildContext context,
-      Widget child,
-      ScrollableDetails details,
-      ) {
-    final actionButton = details.controller.offset > 100
-        ? FloatingActionButton(
-      onPressed: () {
-        details.controller.jumpTo(0);
-      },
-    )
-        : FloatingActionButton(
-      mini: true,
-      onPressed: () {
-        details.controller.jumpTo(0);
-      },
-    );
-
-    return Scaffold(
-      body: child,
-      floatingActionButton: actionButton,
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-    );
-  }
-}
-
-class BackgroundCustomPainter extends CustomPainter {
-  const BackgroundCustomPainter(this.offsets) : super();
-  final List<Offset> offsets;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    // const dense = 100;
-    for (var n in offsets) {
-      canvas.drawCircle(n, 1, Paint()..color = Colors.black38);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-class TimeRulerCustomPainter extends CustomPainter {
-  TimeRulerCustomPainter(this.date, this.captionTextStyle) : super();
-  final DateTime date;
-  final ui.TextStyle captionTextStyle;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final _minutes = (date.minute - (date.minute % 5)).toString();
-    final formattedMinutes = _minutes.length == 1 ? '${_minutes}0' : _minutes;
-    canvas.drawLine(
-      const Offset(50, 18),
-      Offset(size.width - 20, 18),
-      Paint()
-        ..color = date.difference(DateTime.now()).inMinutes < 5 &&
-            date.difference(DateTime.now()).inMinutes > 0
-            ? Colors.blue
-            : Colors.black38
-        ..strokeWidth = 2,
-    );
-    if (date.hour == 12) {
-      canvas.drawParagraph(
-        (ParagraphBuilder(ParagraphStyle())
-          ..pushStyle(captionTextStyle)
-          ..addText(
-            'Noon Time',
-          ))
-            .build()
-          ..layout(const ParagraphConstraints(width: 100)),
-        Offset(size.width / 2 - 20, 10),
-      );
-    }
-    canvas.drawParagraph(
-      (ParagraphBuilder(ParagraphStyle())
-        ..pushStyle(captionTextStyle)
-        ..addText(
-          '${date.hour.toString()}:$formattedMinutes',
-        ))
-          .build()
-        ..layout(const ParagraphConstraints(width: 100)),
-      const Offset(0, 10),
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

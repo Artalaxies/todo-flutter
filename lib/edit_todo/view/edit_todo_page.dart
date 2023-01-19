@@ -8,7 +8,6 @@ import 'package:todos/l10n/l10n.dart';
 import 'package:todos_api/todos_api.dart';
 import 'package:todos_repository/todos_repository.dart';
 
-
 class EditTodoPage extends StatelessWidget {
   const EditTodoPage({super.key});
 
@@ -112,7 +111,9 @@ class _TitleField extends StatelessWidget {
         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\s]')),
       ],
       onChanged: (value) {
-        context.read<EditTodoBloc>().add(EditTodoTitleChanged(value));
+        context
+            .read<EditTodoBloc>()
+            .add(EditTodoTitleChanged(state.initialTodo?.id ?? '', value));
       },
     );
   }

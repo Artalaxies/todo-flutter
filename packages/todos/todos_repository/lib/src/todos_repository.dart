@@ -27,7 +27,7 @@ class TodosRepository {
   Future<void> deleteTodo(String id) => _todosApi.deleteTodo(id);
 
   ///
-  Future<void> sync() => _todosApi.sync();
+  Future<void> sync(List<Todo> list) => _todosApi.sync(list);
 
 
   /// Deletes all completed todos.

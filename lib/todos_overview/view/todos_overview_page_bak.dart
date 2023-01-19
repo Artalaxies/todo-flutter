@@ -6,8 +6,8 @@
 // import 'package:todos/todos_overview/todos_overview.dart';
 // import 'package:todos_repository/todos_repository.dart';
 //
-// import '../../app/todos_sync_bloc/todos_sync_bloc.dart';
-// import '../../app/todos_sync_bloc/todos_sync_state.dart';
+// import '../../app/todos_sync_bloc/schedule_bloc.dart';
+// import '../../app/todos_sync_bloc/schedule_state.dart';
 //
 //
 // class TodosOverviewPage extends StatelessWidget {

@@ -37,14 +37,14 @@ class GeneralPageFrameView extends StatelessWidget {
 
     return Scaffold(
       body: page,
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: FloatingActionButton(
-        key: const Key('homeView_addTodo_floatingActionButton'),
-        onPressed: () => Navigator.of(context).push(EditTodoPage.route()),
-        // child: const Icon(Icons.add),
-        backgroundColor: Colors.transparent,
-        child: Avatar(photo: authUser.photo),
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      // floatingActionButton: FloatingActionButton(
+      //   key: const Key('homeView_addTodo_floatingActionButton'),
+      //   onPressed: () => Navigator.of(context).push(EditTodoPage.route()),
+      //   // child: const Icon(Icons.add),
+      //   backgroundColor: Colors.transparent,
+      //   child: Avatar(photo: authUser.photo),
+      // ),
       // bottomNavigationBar: BottomAppBar(
       //   shape: const CircularNotchedRectangle(),
       //   child: Row(

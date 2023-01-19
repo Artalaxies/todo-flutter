@@ -17,7 +17,7 @@ abstract class TodosApi {
   Future<void> saveTodo(Todo todo);
 
   ///
-  Future<void> sync();
+  Future<void> sync(List<Todo> todoList);
 
 
   /// Deletes the todos with the given id.
