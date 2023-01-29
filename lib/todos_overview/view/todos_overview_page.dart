@@ -135,7 +135,9 @@ class TodosOverviewView extends StatelessWidget {
                         icon: const Icon(Icons.arrow_back),
                       ),
                       Text(
-                        '${state.todos.filter((t) => t.date?.compareTo(now) == -1).length} Past',
+                        '${state
+                            .todos.filter((t) => t.date?.compareTo(now) == -1)
+                            .length} Past',
                         style: theme.textTheme.caption?.copyWith(
                           color: Colors.grey,
                           fontSize: 40,
