@@ -114,11 +114,7 @@ class TodosOverviewView extends StatelessWidget {
           return TodosOverviewBackgroundBox(
             child: Scaffold(
               backgroundColor: Colors.transparent,
-              drawer: todosOverviewDrawer(context),
-              appBar: todosOverviewAppbar(
-                context,
-                _scrollController,
-              ),
+              endDrawer: const TodosOverviewDrawer(),
               bottomNavigationBar: BottomAppBar(
                 color: Colors.white,
                 child: Padding(
@@ -138,11 +134,9 @@ class TodosOverviewView extends StatelessWidget {
                         },
                         color: Colors.black,
                         icon: const Icon(Icons.arrow_back),
-                        ),
+                      ),
                       Text(
-                        '${state
-                            .todos.filter((t) => t.date?.compareTo(now) == -1)
-                            .length} Past',
+                        '${state.todos.filter((t) => t.date?.compareTo(now) == -1).length} Past',
                         style: theme.textTheme.caption?.copyWith(
                           color: Colors.grey,
                           fontSize: 40,
@@ -154,17 +148,29 @@ class TodosOverviewView extends StatelessWidget {
                 ),
               ),
               body: Stack(
-                alignment: Alignment.bottomCenter,
+                alignment: Alignment.topCenter,
                 children: [
                   TodosOverviewInfiniteTimeView(
                     controller: _scrollController,
                     now: context.read<ScheduleBloc>().state.datetime,
                     padding: MediaQuery.of(context).padding.top,
                   ),
-                  TodosDraftContainer(
-                    todos: state.todos.filter((e) => e.date == null).toList(),
-                    height: size.height / 4,
-                  )
+                  Positioned(
+                      top: size.height -
+                          size.height / 4 - 50,
+                      width: size.width,
+                      child: TodosDraftContainer(
+                        todos:
+                            state.todos.filter((e) => e.date == null).toList(),
+                        height: size.height / 4,
+                      )),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    height: 50,
+                    child: TodosOverviewAppbar(
+                      _scrollController,
+                    ),
+                  ),
                 ],
               ),
             ),

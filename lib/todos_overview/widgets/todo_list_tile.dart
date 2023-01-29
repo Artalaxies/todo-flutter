@@ -51,61 +51,53 @@ class TodoListTile extends StatelessWidget {
               color: Color(0xAAFFFFFF),
             ),
           ),
-          child: Row(
-            children: [
-              Checkbox(
-                shape: const ContinuousRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                ),
-                value: todo.isCompleted,
-                onChanged: (completed) {
-                  if (completed == true) {
-                    context.read<TodoBloc>().add(
-                          TodoOnChanged(
-                            ChangedTodo.fromTodo(todo).copyWith(
-                              isCompleted: true,
-                              date: DateTime.now(),
+          child: CustomPaint(
+            painter: DatetimeBackgroundCustomPainter(
+              datetime: todo.date,
+            ),
+            child: Row(
+              children: [
+                Checkbox(
+                  shape: const ContinuousRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                  ),
+                  value: todo.isCompleted,
+                  onChanged: (completed) {
+                    if (completed == true) {
+                      context.read<TodoBloc>().add(
+                            TodoOnChanged(
+                              ChangedTodo.fromTodo(todo).copyWith(
+                                isCompleted: true,
+                                date: DateTime.now(),
+                              ),
                             ),
-                          ),
-                        );
-                  } else {
-                    context.read<TodoBloc>().add(
-                          TodoOnChanged(
-                            ChangedTodo.fromTodo(todo)
-                                .copyWith(isCompleted: false),
-                          ),
-                        );
-                  }
-                },
-              ),
-              Container(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width - 52,
+                          );
+                    } else {
+                      context.read<TodoBloc>().add(
+                            TodoOnChanged(
+                              ChangedTodo.fromTodo(todo)
+                                  .copyWith(isCompleted: false),
+                            ),
+                          );
+                    }
+                  },
                 ),
-                child: CustomPaint(
-                  painter: DatetimeBackgroundCustomPainter(
-                    datetime: todo.date,
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.8,
                   ),
                   child: TextFormField(
                     controller: textEditingController,
                     key: const Key('editTodoView_title_textFormField'),
                     decoration: const InputDecoration.collapsed(
-                      hintText: 'what todo?',
+                      hintText: 'what to do?',
                     ),
-                    // buildCounter: (context,
-                    //         {required currentLength,
-                    //         maxLength,
-                    //         required isFocused}) =>
-                    //     isFocused
-                    //         ? Text(
-                    //             '$currentLength/$maxLength',
-                    //           )
-                    //         : null,
                     textCapitalization: TextCapitalization.words,
                     readOnly: todo.isCompleted,
                     style: todo.isCompleted
                         ? const TextStyle(
-                            decoration: TextDecoration.lineThrough)
+                            decoration: TextDecoration.lineThrough,
+                          )
                         : const TextStyle(),
                     // maxLength: 50,
                     // inputFormatters: [
@@ -126,8 +118,8 @@ class TodoListTile extends StatelessWidget {
                     onEditingComplete: () {},
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -158,7 +150,7 @@ class DatetimeBackgroundCustomPainter extends CustomPainter {
               ))
             .build()
           ..layout(ParagraphConstraints(width: size.width)),
-        Offset(size.width / 2, 0),
+        Offset(size.width - 70, 10),
       );
     }
   }

@@ -10,7 +10,11 @@ import 'package:todos/app/user_bloc/general_user_bloc.dart';
 
 
 
-Drawer todosOverviewDrawer(BuildContext context) {
+class TodosOverviewDrawer extends StatelessWidget {
+  const TodosOverviewDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         children: [
@@ -23,7 +27,16 @@ Drawer todosOverviewDrawer(BuildContext context) {
               }
             },
           ),
+          ListTile(
+            title: const Text('Change Log'),
+            onTap: (){
+              if(context.read<GeneralUserBloc>().state.user.isEmpty){
+                context.go('/changelog');
+              }
+            },
+          ),
         ],
       ),
     );
+}
 }

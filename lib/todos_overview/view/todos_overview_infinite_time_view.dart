@@ -100,7 +100,7 @@ class _TodosOverviewInfiniteTimeView extends StatelessWidget {
               controller: controller,
               center: centerKey,
               reverse: true,
-              anchor: 0.49 + (padding > 0 ? 0.015 : 0),
+              anchor: 0.4685 + (padding > 0 ? -0.023 : 0),
               slivers: <Widget>[
                 SliverList(
                   delegate: SliverChildBuilderDelegate(

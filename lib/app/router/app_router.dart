@@ -5,11 +5,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todos/log_page/log_page.dart';
 import 'package:todos/login/login.dart';
 import 'package:todos/sign_up/sign_up.dart';
-import '../view/general_page_frame.dart';
-import '/stats/view/stats_page.dart';
-import '/todos_overview/view/todos_overview_page.dart';
+import 'package:todos/stats/view/stats_page.dart';
+import 'package:todos/todos_overview/view/todos_overview_page.dart';
 
 // final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 // final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -45,6 +45,10 @@ GoRouter goRouter({
           GoRoute(
               path: '/signup',
               builder: (context, state) => const SignUpPage(),
+          ),
+          GoRoute(
+            path: '/log',
+            builder: (context, state) => const LogPage(),
           )
         ],
       )
