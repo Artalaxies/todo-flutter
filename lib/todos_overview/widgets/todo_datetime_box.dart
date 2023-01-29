@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023, Artalaxies LLC - All Rights Reserved
+ * Unauthorized copying or redistribution of this file in source and binary forms via any medium is strictly prohibited.
+ */
+
 import 'dart:developer';
 import 'dart:ui';
 import 'dart:ui' as ui;

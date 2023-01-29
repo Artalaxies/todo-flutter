@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023, Artalaxies LLC - All Rights Reserved
+ * Unauthorized copying or redistribution of this file in source and binary forms via any medium is strictly prohibited.
+ */
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -5,11 +10,7 @@ import 'package:todos/app/user_bloc/general_user_bloc.dart';
 
 
 
-class TodosOverviewDrawer extends StatelessWidget {
-  const TodosOverviewDrawer({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+Drawer todosOverviewDrawer(BuildContext context) {
     return Drawer(
       child: ListView(
         children: [
@@ -25,5 +26,4 @@ class TodosOverviewDrawer extends StatelessWidget {
         ],
       ),
     );
-  }
 }

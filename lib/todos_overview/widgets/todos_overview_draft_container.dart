@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023, Artalaxies LLC - All Rights Reserved
+ * Unauthorized copying or redistribution of this file in source and binary forms via any medium is strictly prohibited.
+ */
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todos/todos_overview/bloc/todos_overview_bloc.dart';

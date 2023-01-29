@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023, Artalaxies LLC - All Rights Reserved
+ * Unauthorized copying or redistribution of this file in source and binary forms via any medium is strictly prohibited.
+ */
+
 import 'dart:ui';
 import 'dart:ui' as ui;
 
@@ -13,6 +18,7 @@ AppBar todosOverviewAppbar(BuildContext context, ScrollController controller) {
     backgroundColor: Colors.transparent,
     shadowColor: Colors.transparent,
     foregroundColor: Colors.transparent,
+    automaticallyImplyLeading: false,
     centerTitle: true,
     title: IconButton(
       color: Colors.black,
@@ -48,15 +54,16 @@ AppBar todosOverviewAppbar(BuildContext context, ScrollController controller) {
         onPressed: () {},
         icon: const Icon(Icons.search),
       ),
-      IconButton(
-        onPressed: () {
-          Scaffold.of(context).openDrawer();
-          // if(context.read<GeneralUserBloc>().state.user.isEmpty){
-          //   context.go('/login');
-          // }
-        },
-        icon: const Avatar(),
-      )
+      Builder(
+          builder: (context) => IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                  // if(context.read<GeneralUserBloc>().state.user.isEmpty){
+                  //   context.go('/login');
+                  // }
+                },
+                icon: const Avatar(),
+              ))
     ],
   );
 }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023, Artalaxies LLC - All Rights Reserved
+ * Unauthorized copying or redistribution of this file in source and binary forms via any medium is strictly prohibited.
+ */
+
 part of 'todos_overview_bloc.dart';
 
 enum TodosOverviewStatus { initial, loading, success, failure }

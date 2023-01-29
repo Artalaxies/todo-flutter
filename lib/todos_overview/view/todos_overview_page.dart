@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023, Artalaxies LLC - All Rights Reserved
+ * Unauthorized copying or redistribution of this file in source and binary forms via any medium is strictly prohibited.
+ */
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -109,7 +114,7 @@ class TodosOverviewView extends StatelessWidget {
           return TodosOverviewBackgroundBox(
             child: Scaffold(
               backgroundColor: Colors.transparent,
-              drawer: const TodosOverviewDrawer(),
+              drawer: todosOverviewDrawer(context),
               appBar: todosOverviewAppbar(
                 context,
                 _scrollController,
@@ -133,7 +138,7 @@ class TodosOverviewView extends StatelessWidget {
                         },
                         color: Colors.black,
                         icon: const Icon(Icons.arrow_back),
-                      ),
+                        ),
                       Text(
                         '${state
                             .todos.filter((t) => t.date?.compareTo(now) == -1)
