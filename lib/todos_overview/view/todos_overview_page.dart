@@ -6,10 +6,11 @@ import 'package:fpdart/fpdart.dart';
 import 'package:todos/app/schedule_bloc/schedule_bloc.dart';
 import 'package:todos/app/schedule_bloc/schedule_event.dart';
 import 'package:todos/app/schedule_bloc/schedule_state.dart';
-import 'package:todos/app/todo_bloc/todo_bloc.dart';
 import 'package:todos/l10n/l10n.dart';
+import 'package:todos/todos_overview/todo_bloc/todo_bloc.dart';
 import 'package:todos/todos_overview/todos_overview.dart';
 import 'package:todos/todos_overview/view/todos_overview_infinite_time_view.dart';
+import 'package:todos/todos_overview/widgets/todos_overview_drawer.dart';
 import 'package:todos_repository/todos_repository.dart';
 
 class TodosOverviewPage extends StatelessWidget {
@@ -17,10 +18,17 @@ class TodosOverviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => TodosOverviewBloc(
-        todosRepository: context.read<TodosRepository>(),
-      )..add(const TodosOverviewSubscriptionRequested()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => TodosOverviewBloc(
+            todosRepository: context.read<TodosRepository>(),
+          )..add(const TodosOverviewSubscriptionRequested()),
+        ),
+        BlocProvider(
+          create: (context) => TodoBloc(context.read<TodosRepository>()),
+        ),
+      ],
       child: TodosOverviewView(),
     );
   }
@@ -101,6 +109,7 @@ class TodosOverviewView extends StatelessWidget {
           return TodosOverviewBackgroundBox(
             child: Scaffold(
               backgroundColor: Colors.transparent,
+              drawer: const TodosOverviewDrawer(),
               appBar: todosOverviewAppbar(
                 context,
                 _scrollController,
@@ -126,11 +135,7 @@ class TodosOverviewView extends StatelessWidget {
                         icon: const Icon(Icons.arrow_back),
                       ),
                       Text(
-                        '${
-                            state.
-                            todos.
-                            filter((t) => t.date?.compareTo(now) == -1)
-                                .length} Crystal',
+                        '${state.todos.filter((t) => t.date?.compareTo(now) == -1).length} Past',
                         style: theme.textTheme.caption?.copyWith(
                           color: Colors.grey,
                           fontSize: 40,

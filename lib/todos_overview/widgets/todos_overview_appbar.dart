@@ -3,11 +3,8 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:todos/app/todo_bloc/todo_bloc.dart';
-import 'package:todos/app/user_bloc/general_user_bloc.dart';
 import 'package:todos/app/widgets/avatar.dart';
-import 'package:todos/todos_overview/bloc/todos_overview_bloc.dart';
+import 'package:todos/todos_overview/todo_bloc/todo_bloc.dart';
 
 AppBar todosOverviewAppbar(BuildContext context, ScrollController controller) {
   final paddingSize = MediaQuery.of(context).padding.top;
@@ -53,9 +50,10 @@ AppBar todosOverviewAppbar(BuildContext context, ScrollController controller) {
       ),
       IconButton(
         onPressed: () {
-          if(context.read<GeneralUserBloc>().state.user.isEmpty){
-            context.go('/login');
-          }
+          Scaffold.of(context).openDrawer();
+          // if(context.read<GeneralUserBloc>().state.user.isEmpty){
+          //   context.go('/login');
+          // }
         },
         icon: const Avatar(),
       )

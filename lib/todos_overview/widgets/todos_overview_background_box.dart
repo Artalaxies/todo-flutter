@@ -8,7 +8,7 @@ class TodosOverviewBackgroundBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-        color: const Color(0xAAF1E2B1),
+        color: const Color(0xAAE3D6A9),
         child: CustomPaint(
             painter: const BackgroundCustomPainter(), child: child));
   }

@@ -1,6 +1,7 @@
 import 'package:replay_bloc/replay_bloc.dart';
-import 'package:todos/app/todo_bloc/changed_todo.dart';
 import 'package:todos_repository/todos_repository.dart';
+
+import 'package:todos/todos_overview/todo_bloc/changed_todo.dart';
 
 abstract class TodoEvent extends ReplayEvent {}
 

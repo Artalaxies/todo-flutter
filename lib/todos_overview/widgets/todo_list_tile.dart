@@ -2,11 +2,10 @@ import 'dart:ui';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:todos/app/todo_bloc/changed_todo.dart';
-import 'package:todos/app/todo_bloc/todo_bloc.dart';
+import 'package:todos/todos_overview/todo_bloc/changed_todo.dart';
+import 'package:todos/todos_overview/todo_bloc/todo_bloc.dart';
 import 'package:todos_api/todos_api.dart';
 
 class TodoListTile extends StatelessWidget {
@@ -26,32 +25,28 @@ class TodoListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return  BlocBuilder<TodoBloc, TodoState>(builder: (context, state) {
-      final changedTodo = state.changedList[_todo.id];
-      final todo = changedTodo?.toTodo() ?? _todo;
-      final textEditingController = TextEditingController.fromValue(
-        TextEditingValue(text: todo.title),
-      )..selection = TextSelection.collapsed(
-          offset: changedTodo?.index ?? todo.title.length,
-        );
-      return Dismissible(
-        key: Key('todoListTile_dismissible_${todo.id}'),
-        onDismissed: onDismissed,
-        direction: DismissDirection.endToStart,
-        background: Container(
-          alignment: Alignment.centerRight,
-          color: theme.colorScheme.error,
-          child: const Icon(
-            Icons.delete,
-            color: Color(0xAAFFFFFF),
-          ),
-        ),
-        child: CustomPaint(
-          painter: DatetimeBackgroundCustomPainter(
-            datetime: todo.date,
+    return BlocBuilder<TodoBloc, TodoState>(
+      builder: (context, state) {
+        final changedTodo = state.changedList[_todo.id];
+        final todo = changedTodo?.toTodo() ?? _todo;
+        final textEditingController = TextEditingController.fromValue(
+          TextEditingValue(text: todo.title),
+        )..selection = TextSelection.collapsed(
+            offset: changedTodo?.index ?? todo.title.length,
+          );
+        return Dismissible(
+          key: Key('todoListTile_dismissible_${todo.id}'),
+          onDismissed: onDismissed,
+          direction: DismissDirection.endToStart,
+          background: Container(
+            alignment: Alignment.centerRight,
+            color: theme.colorScheme.error,
+            child: const Icon(
+              Icons.delete,
+              color: Color(0xAAFFFFFF),
+            ),
           ),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Checkbox(
                 shape: const ContinuousRectangleBorder(
@@ -82,50 +77,56 @@ class TodoListTile extends StatelessWidget {
                 constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width - 52,
                 ),
-                padding: const EdgeInsets.only(top: 10),
-                child: TextFormField(
-                  controller: textEditingController,
-                  key: const Key('editTodoView_title_textFormField'),
-                  decoration: const InputDecoration.collapsed(
-                    hintText: 'what todo?',
+                child: CustomPaint(
+                  painter: DatetimeBackgroundCustomPainter(
+                    datetime: todo.date,
                   ),
-                  // buildCounter: (context,
-                  //         {required currentLength,
-                  //         maxLength,
-                  //         required isFocused}) =>
-                  //     isFocused
-                  //         ? Text(
-                  //             '$currentLength/$maxLength',
-                  //           )
-                  //         : null,
-                  textCapitalization: TextCapitalization.words,
-                  readOnly: todo.isCompleted,
-                  style: todo.isCompleted
-                      ? const TextStyle(decoration: TextDecoration.lineThrough)
-                      : const TextStyle(),
-                  // maxLength: 50,
-                  // inputFormatters: [
+                  child: TextFormField(
+                    controller: textEditingController,
+                    key: const Key('editTodoView_title_textFormField'),
+                    decoration: const InputDecoration.collapsed(
+                      hintText: 'what todo?',
+                    ),
+                    // buildCounter: (context,
+                    //         {required currentLength,
+                    //         maxLength,
+                    //         required isFocused}) =>
+                    //     isFocused
+                    //         ? Text(
+                    //             '$currentLength/$maxLength',
+                    //           )
+                    //         : null,
+                    textCapitalization: TextCapitalization.words,
+                    readOnly: todo.isCompleted,
+                    style: todo.isCompleted
+                        ? const TextStyle(
+                            decoration: TextDecoration.lineThrough)
+                        : const TextStyle(),
+                    // maxLength: 50,
+                    // inputFormatters: [
                     // LengthLimitingTextInputFormatter(50),
                     // FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\s]')),
-                  // ],
-                  onChanged: (value) {
-                    context.read<TodoBloc>().add(
-                          TodoOnChanged(
-                            ChangedTodo.fromTodo(todo).copyWith(
-                              title: value,
-                              index: textEditingController.selection.baseOffset,
+                    // ],
+                    onChanged: (value) {
+                      context.read<TodoBloc>().add(
+                            TodoOnChanged(
+                              ChangedTodo.fromTodo(todo).copyWith(
+                                title: value,
+                                index:
+                                    textEditingController.selection.baseOffset,
+                              ),
                             ),
-                          ),
-                        );
-                  },
-                  onEditingComplete: () {},
+                          );
+                    },
+                    onEditingComplete: () {},
+                  ),
                 ),
               ),
             ],
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }
 
@@ -152,7 +153,7 @@ class DatetimeBackgroundCustomPainter extends CustomPainter {
               ))
             .build()
           ..layout(ParagraphConstraints(width: size.width)),
-        Offset(size.width - 100, 10),
+        Offset(size.width / 2, 0),
       );
     }
   }

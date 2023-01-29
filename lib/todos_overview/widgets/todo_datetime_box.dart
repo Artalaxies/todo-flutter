@@ -7,11 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:todos/app/schedule_bloc/schedule_bloc.dart';
 import 'package:todos/app/schedule_bloc/schedule_state.dart';
+import 'package:todos/todos_overview/bloc/todos_overview_bloc.dart';
 import 'package:todos/todos_overview/widgets/todo_list_tile.dart';
 import 'package:todos_repository/todos_repository.dart';
-import 'package:flutter/services.dart';
-
-import '../bloc/todos_overview_bloc.dart';
 
 class TodoDateTimeBox extends StatelessWidget {
   TodoDateTimeBox({
