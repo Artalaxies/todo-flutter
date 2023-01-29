@@ -130,7 +130,7 @@ class TodosOverviewView extends StatelessWidget {
                             state.
                             todos.
                             filter((t) => t.date?.compareTo(now) == -1)
-                                .length} Past',
+                                .length} Crystal',
                         style: theme.textTheme.caption?.copyWith(
                           color: Colors.grey,
                           fontSize: 40,
