@@ -194,7 +194,7 @@ class TodosOverviewView extends StatelessWidget {
                   ),
                   Container(
                     alignment: Alignment.topLeft,
-                    height: 50,
+                    height: 50 + MediaQuery.of(context).padding.top,
                     child: TodosOverviewAppbar(
                       _scrollController,
                     ),
