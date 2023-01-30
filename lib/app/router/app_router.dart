@@ -47,7 +47,7 @@ GoRouter goRouter({
               builder: (context, state) => const SignUpPage(),
           ),
           GoRoute(
-            path: '/log',
+            path: '/logs',
             builder: (context, state) => const LogPage(),
           )
         ],

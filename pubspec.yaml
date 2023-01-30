@@ -63,6 +63,7 @@ dependencies:
   fpdart: ^0.4.0
   rxdart: ^0.27.5
   shared_preferences: ^2.0.15
+  animations: ^2.0.7
 
   server_storage_todos_api_impl:
     path: packages/todos/server_storage_todos_api_impl

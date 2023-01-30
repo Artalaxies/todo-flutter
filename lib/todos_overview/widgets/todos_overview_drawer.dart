@@ -28,10 +28,10 @@ class TodosOverviewDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            title: const Text('Change Log'),
+            title: const Text('Logs'),
             onTap: (){
               if(context.read<GeneralUserBloc>().state.user.isEmpty){
-                context.go('/changelog');
+                context.go('/logs');
               }
             },
           ),

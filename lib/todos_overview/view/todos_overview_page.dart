@@ -110,11 +110,11 @@ class TodosOverviewView extends StatelessWidget {
         builder: (context, state) {
           final theme = Theme.of(context);
           final size = MediaQuery.of(context).size;
-
           return TodosOverviewBackgroundBox(
             child: Scaffold(
               backgroundColor: Colors.transparent,
               endDrawer: const TodosOverviewDrawer(),
+              // bottomSheet: draftContainer,
               bottomNavigationBar: BottomAppBar(
                 color: Colors.white,
                 child: Padding(
@@ -123,8 +123,42 @@ class TodosOverviewView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Scaffold.of(context).showBottomSheet(
+                            (contexts) => Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.of(contexts).pop();
+                                  },
+                                  icon: const Icon(Icons.list),
+                                ),
+                                BlocProvider.value(
+                                  value: BlocProvider.of<TodosOverviewBloc>(
+                                    context,
+                                  ),
+                                  child: BlocProvider.value(
+                                    value: BlocProvider.of<TodoBloc>(context),
+                                    child: BlocBuilder<TodosOverviewBloc,
+                                        TodosOverviewState>(
+                                      builder: (context, state) =>
+                                          TodosDraftContainer(
+                                        todos: state.todos
+                                            .filter((e) => e.date == null)
+                                            .toList(),
+                                        height: size.height / 4,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                         color: Colors.black,
+                        focusColor: Colors.black,
                         icon: const Icon(Icons.list),
                       ),
                       IconButton(
@@ -136,7 +170,10 @@ class TodosOverviewView extends StatelessWidget {
                         icon: const Icon(Icons.arrow_back),
                       ),
                       Text(
-                        '${state.todos.filter((t) => t.date?.compareTo(now) == -1).length} Past',
+                        state.todos
+                            .filter((t) => t.date?.compareTo(now) == -1)
+                            .length
+                            .toString(),
                         style: theme.textTheme.caption?.copyWith(
                           color: Colors.grey,
                           fontSize: 40,
@@ -155,15 +192,6 @@ class TodosOverviewView extends StatelessWidget {
                     now: context.read<ScheduleBloc>().state.datetime,
                     padding: MediaQuery.of(context).padding.top,
                   ),
-                  Positioned(
-                      top: size.height -
-                          size.height / 4 - 50,
-                      width: size.width,
-                      child: TodosDraftContainer(
-                        todos:
-                            state.todos.filter((e) => e.date == null).toList(),
-                        height: size.height / 4,
-                      )),
                   Container(
                     alignment: Alignment.topLeft,
                     height: 50,

@@ -57,15 +57,16 @@ class TodosOverviewAppbar extends StatelessWidget {
           icon: const Icon(Icons.search),
         ),
         Builder(
-            builder: (context) => IconButton(
-                  onPressed: () {
-                    Scaffold.of(context).openEndDrawer();
-                    // if(context.read<GeneralUserBloc>().state.user.isEmpty){
-                    //   context.go('/login');
-                    // }
-                  },
-                  icon: const Avatar(),
-                ))
+          builder: (context) => IconButton(
+            onPressed: () {
+              Scaffold.of(context).openEndDrawer();
+              // if(context.read<GeneralUserBloc>().state.user.isEmpty){
+              //   context.go('/login');
+              // }
+            },
+            icon: const Avatar(),
+          ),
+        ),
       ],
     );
   }
