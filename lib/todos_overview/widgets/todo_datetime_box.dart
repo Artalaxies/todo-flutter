@@ -56,17 +56,16 @@ class TodoDateTimeBox extends StatelessWidget {
             }
 
             final range =
-                scheduleState.datetime.difference(now).inMinutes.abs() ~/ 5;
-            final updatedDate = date.add(Duration(minutes: range * 5));
+                scheduleState.datetime.difference(now);
+            final updatedDate = date
+                .add(range);
 
             return CustomPaint(
               foregroundPainter: TimeRulerCustomPainter(
-                  captionTextStyle: _textStyle,
-                  date: updatedDate,
-                  now: now,
-                  stateTime: context.read<ScheduleBloc>().state.datetime
-                  // now: scheduleState.datetime,
-                  ),
+                updatedDate,
+                captionTextStyle: _textStyle,
+                // now: scheduleState.datetime,
+              ),
               isComplex: true,
               willChange: true,
               child: Padding(
@@ -91,26 +90,20 @@ class TodoDateTimeBox extends StatelessWidget {
 }
 
 class TimeRulerCustomPainter extends CustomPainter {
-  TimeRulerCustomPainter({
+  TimeRulerCustomPainter(
+    this.date, {
     required this.captionTextStyle,
-    required this.date,
-    required this.now,
-    required this.stateTime,
   }) : super();
   final DateTime date;
-  final DateTime now;
-  final DateTime stateTime;
+  DateTime now = DateTime.now();
   final ui.TextStyle captionTextStyle;
   final DateFormat dateFormatter = DateFormat('yyyy-MM-dd');
   final DateFormat timeFormatter = DateFormat('HH:mm');
 
   @override
   void paint(Canvas canvas, Size size) {
-    final diffNow = now.difference(stateTime).inMinutes;
-    var modifiedDate = date.subtract(Duration(minutes: diffNow));
-    modifiedDate =
-        modifiedDate.subtract(Duration(minutes: modifiedDate.minute % 5));
-    final _minutes = modifiedDate.minute - modifiedDate.minute % 5;
+    final _minutes = date.minute - date.minute % 5;
+    final modifiedDate = date.subtract(Duration(minutes: date.minute % 5));
     final diffInMinutes = date.difference(now).inMinutes;
     log('painted: ${timeFormatter.format(modifiedDate)}');
 
@@ -191,7 +184,6 @@ class TimeRulerCustomPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+
 }

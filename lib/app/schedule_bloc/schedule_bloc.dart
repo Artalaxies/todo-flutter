@@ -39,14 +39,19 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         add(ScheduleNoticed(duration: duration));
       }
     });
-    emit(ScheduleState(status: ScheduleStatus.inProgress));
+    emit(
+      ScheduleState(
+        status: ScheduleStatus.inProgress,
+        datetime: DateTime.now(),
+      ),
+    );
   }
 
   void _onNoticed(
     ScheduleNoticed event,
     Emitter<ScheduleState> emit,
   ) {
-    emit(state.copyWith(duration: event.duration));
+    emit(state.copyWith(duration: event.duration, datetime: DateTime.now()));
   }
 
   void _onPaused(ScheduleCheckupPaused event, Emitter<ScheduleState> emit) {
@@ -55,6 +60,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       state.copyWith(
         status: ScheduleStatus.stop,
         duration: state.duration,
+        datetime: DateTime.now(),
       ),
     );
   }
@@ -64,7 +70,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     Emitter<ScheduleState> emit,
   ) {
     _scheduleSubscription?.cancel();
-    emit(ScheduleState(status: ScheduleStatus.stop));
+    emit(ScheduleState(status: ScheduleStatus.stop, datetime: DateTime.now()));
   }
 
   void _onResumed(
@@ -76,6 +82,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       state.copyWith(
         status: ScheduleStatus.inProgress,
         duration: state.duration,
+        datetime: DateTime.now(),
       ),
     );
   }

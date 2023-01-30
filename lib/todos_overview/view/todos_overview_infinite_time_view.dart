@@ -120,7 +120,8 @@ class _TodosOverviewInfiniteTimeView extends StatelessWidget {
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
                       return TodoDateTimeBox(
-                        date: state.now.add(Duration(minutes: (index + 1) * 5)),
+                        date: state.now
+                            .add(Duration(minutes: (index + 1) * 5)),
                         textStyle: captionTextStyle,
                         now: state.now,
                       );
