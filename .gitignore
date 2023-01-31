@@ -75,3 +75,5 @@ local.properties
 .env
 
 lib/firebase_options.dart
+
+google-services.json

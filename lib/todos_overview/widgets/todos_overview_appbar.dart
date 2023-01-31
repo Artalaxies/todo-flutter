@@ -7,9 +7,7 @@ import 'dart:ui';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todos/app/widgets/avatar.dart';
-import 'package:todos/todos_overview/todo_bloc/todo_bloc.dart';
 
 class TodosOverviewAppbar extends StatelessWidget {
   const TodosOverviewAppbar(this.controller, {super.key});
@@ -44,13 +42,6 @@ class TodosOverviewAppbar extends StatelessWidget {
         painter: AppbarPainter(padding: paddingSize),
       ),
       actions: [
-        IconButton(
-          color: Colors.black,
-          onPressed: () {
-            context.read<TodoBloc>().add(TodoSyncRequest());
-          },
-          icon: const Icon(Icons.refresh),
-        ),
         IconButton(
           color: Colors.black,
           onPressed: () {},

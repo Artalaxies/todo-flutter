@@ -18,6 +18,8 @@ import 'package:todos/todos_overview/view/todos_overview_infinite_time_view.dart
 import 'package:todos/todos_overview/widgets/todos_overview_drawer.dart';
 import 'package:todos_repository/todos_repository.dart';
 
+import '../widgets/todos_overview_history_container.dart';
+
 class TodosOverviewPage extends StatelessWidget {
   const TodosOverviewPage({super.key});
 
@@ -110,10 +112,13 @@ class TodosOverviewView extends StatelessWidget {
         builder: (context, state) {
           final theme = Theme.of(context);
           final size = MediaQuery.of(context).size;
+          final historyTodos =
+              state.todos.filter((t) => t.date?.compareTo(now) == -1);
           return TodosOverviewBackgroundBox(
             child: Scaffold(
               backgroundColor: Colors.transparent,
               endDrawer: const TodosOverviewDrawer(),
+              drawerScrimColor: Colors.transparent,
               // bottomSheet: draftContainer,
               bottomNavigationBar: BottomAppBar(
                 color: Colors.white,
@@ -129,27 +134,44 @@ class TodosOverviewView extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                IconButton(
-                                  onPressed: () {
-                                    Navigator.of(contexts).pop();
-                                  },
-                                  icon: const Icon(Icons.list),
-                                ),
-                                BlocProvider.value(
-                                  value: BlocProvider.of<TodosOverviewBloc>(
-                                    context,
-                                  ),
-                                  child: BlocProvider.value(
-                                    value: BlocProvider.of<TodoBloc>(context),
-                                    child: BlocBuilder<TodosOverviewBloc,
-                                        TodosOverviewState>(
-                                      builder: (context, state) =>
-                                          TodosDraftContainer(
-                                        todos: state.todos
-                                            .filter((e) => e.date == null)
-                                            .toList(),
-                                        height: size.height / 4,
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          Navigator.of(contexts).pop();
+                                        },
+                                        icon: const Icon(Icons.list),
                                       ),
+                                      IconButton(
+                                        onPressed: () {
+                                          log('canUndo: ${context.read<TodoBloc>().canUndo}');
+                                          context.read<TodoBloc>().undo();
+                                        },
+                                        color: Colors.black,
+                                        icon: const Icon(Icons.arrow_back),
+                                      )
+                                    ]),
+                                MultiBlocProvider(
+                                  providers: [
+                                    BlocProvider.value(
+                                      value: BlocProvider.of<TodosOverviewBloc>(
+                                        context,
+                                      ),
+                                    ),
+                                    BlocProvider.value(
+                                        value:
+                                            BlocProvider.of<TodoBloc>(context)),
+                                  ],
+                                  child: BlocBuilder<TodosOverviewBloc,
+                                      TodosOverviewState>(
+                                    builder: (context, state) =>
+                                        TodosDraftContainer(
+                                      todos: state.todos
+                                          .filter((e) => e.date == null)
+                                          .toList(),
+                                      height: size.height / 4,
                                     ),
                                   ),
                                 ),
@@ -158,21 +180,10 @@ class TodosOverviewView extends StatelessWidget {
                           );
                         },
                         color: Colors.black,
-                        focusColor: Colors.black,
                         icon: const Icon(Icons.list),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          log('canUndo: ${context.read<TodoBloc>().canUndo}');
-                          context.read<TodoBloc>().undo();
-                        },
-                        color: Colors.black,
-                        icon: const Icon(Icons.arrow_back),
-                      ),
                       Text(
-                        state.todos
-                            .filter((t) => t.date?.compareTo(now) == -1)
-                            .length
+                        historyTodos.length
                             .toString(),
                         style: theme.textTheme.caption?.copyWith(
                           color: Colors.grey,
@@ -199,6 +210,13 @@ class TodosOverviewView extends StatelessWidget {
                       _scrollController,
                     ),
                   ),
+                  Container(
+                    alignment: Alignment.bottomRight,
+                    padding: const EdgeInsets.only(bottom: 10, right: 10),
+                    child: TodosOverviewHistoryContainer(
+                      todos: historyTodos.toList(),
+                    ),
+                  )
                 ],
               ),
             ),

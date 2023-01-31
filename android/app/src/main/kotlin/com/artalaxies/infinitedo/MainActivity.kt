@@ -1,4 +1,4 @@
-package com.example.todos
+package com.artalaxies.infinitedo
 
 import io.flutter.embedding.android.FlutterActivity
 

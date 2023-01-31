@@ -3,7 +3,6 @@
  * Unauthorized copying or redistribution of this file in source and binary forms via any medium is strictly prohibited.
  */
 
-import 'dart:developer';
 import 'dart:ui';
 import 'dart:ui' as ui;
 
@@ -105,7 +104,7 @@ class TimeRulerCustomPainter extends CustomPainter {
     final _minutes = date.minute - date.minute % 5;
     final modifiedDate = date.subtract(Duration(minutes: date.minute % 5));
     final diffInMinutes = date.difference(now).inMinutes;
-    log('painted: ${timeFormatter.format(modifiedDate)}');
+    // log('painted: ${timeFormatter.format(modifiedDate)}');
 
     canvas
       ..drawLine(
