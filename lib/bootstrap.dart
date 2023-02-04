@@ -23,12 +23,13 @@ void bootstrap({required TodosApi todosApi, FirebaseAuth? auth}) {
   Bloc.observer = AppBlocObserver();
 
   final authenticationRepository = AuthenticationRepository(firebaseAuth: auth);
+  final todosRepository = TodosRepository(todosApi: todosApi);
   runZonedGuarded(
     () => runApp(
       App(
         repositoryProviders: [
           RepositoryProvider.value(
-            value: TodosRepository(todosApi: todosApi),
+            value: todosRepository,
           ),
           RepositoryProvider.value(
             value: authenticationRepository,

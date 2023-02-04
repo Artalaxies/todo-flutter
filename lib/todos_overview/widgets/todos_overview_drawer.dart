@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:todos/app/user_bloc/general_user_bloc.dart';
 
 class TodosOverviewDrawer extends StatelessWidget {
@@ -22,28 +23,43 @@ class TodosOverviewDrawer extends StatelessWidget {
       ),
       width: MediaQuery.of(context).size.width * 0.5,
       child: ColoredBox(
-          color: Colors.white54,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                title: const Text('sign in'),
-                onTap: () {
-                  if (context.read<GeneralUserBloc>().state.user.isEmpty) {
-                    context.go('/login');
-                  }
-                },
+        color: Colors.white54,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              title: const Text('Sign In'),
+              onTap: () {
+                if (context.read<GeneralUserBloc>().state.user.isEmpty) {
+                  context.go('/login');
+                }
+              },
+            ),
+            ListTile(
+              title: const Text('Integrations'),
+              onTap: () {},
+            ),
+            ListTile(
+              title: const Text('Logs'),
+              onTap: () {
+                if (context.read<GeneralUserBloc>().state.user.isEmpty) {
+                  context.go('/logs');
+                }
+              },
+            ),
+            FutureBuilder(
+              future: PackageInfo.fromPlatform(),
+              builder: (context, snapshot) => Padding(
+                padding: const EdgeInsets.all(15),
+                child: Text(
+                  'v${snapshot.data?.version ?? '0.0.0'}',
+                ),
               ),
-              ListTile(
-                title: const Text('Logs'),
-                onTap: () {
-                  if (context.read<GeneralUserBloc>().state.user.isEmpty) {
-                    context.go('/logs');
-                  }
-                },
-              ),
-            ],
-          )),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

@@ -75,6 +75,7 @@ class TodoDateTimeBox extends StatelessWidget {
                     children: [
                       ..._todosForFiveMinutes(updatedDate).map(
                         (e) => TodoListTile(
+                          key: e.key,
                           todo: e,
                         ),
                       )

@@ -31,7 +31,9 @@ class TodosOverviewAppbar extends StatelessWidget {
           controller.animateTo(
             0,
             duration: Duration(
-              milliseconds: controller.offset.abs().toInt(),
+              milliseconds: controller.offset.abs().toInt() > 10000
+                  ? 10000
+                  : controller.offset.abs().toInt(),
             ),
             curve: Curves.easeInOutQuart,
           );

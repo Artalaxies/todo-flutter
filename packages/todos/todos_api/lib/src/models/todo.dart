@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 import 'package:todos_api/todos_api.dart';
 import 'package:uuid/uuid.dart';
 
@@ -34,6 +34,9 @@ class Todo extends Equatable {
           'id can not be null and should be empty',
         ),
         id = id ?? const Uuid().v4();
+
+  ///
+  final GlobalKey key = GlobalKey();
 
   /// The unique identifier of the todos.
   ///

@@ -3,8 +3,6 @@
  * Unauthorized copying or redistribution of this file in source and binary forms via any medium is strictly prohibited.
  */
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
@@ -15,10 +13,10 @@ import 'package:todos/l10n/l10n.dart';
 import 'package:todos/todos_overview/todo_bloc/todo_bloc.dart';
 import 'package:todos/todos_overview/todos_overview.dart';
 import 'package:todos/todos_overview/view/todos_overview_infinite_time_view.dart';
+import 'package:todos/todos_overview/widgets/todos_overview_bottom_appbar.dart';
 import 'package:todos/todos_overview/widgets/todos_overview_drawer.dart';
+import 'package:todos/todos_overview/widgets/todos_overview_history_container.dart';
 import 'package:todos_repository/todos_repository.dart';
-
-import '../widgets/todos_overview_history_container.dart';
 
 class TodosOverviewPage extends StatelessWidget {
   const TodosOverviewPage({super.key});
@@ -44,7 +42,6 @@ class TodosOverviewPage extends StatelessWidget {
 class TodosOverviewView extends StatelessWidget {
   TodosOverviewView({super.key});
 
-  final now = DateTime.now();
   final _scrollController = ScrollController();
 
   @override
@@ -112,88 +109,28 @@ class TodosOverviewView extends StatelessWidget {
         builder: (context, state) {
           final theme = Theme.of(context);
           final size = MediaQuery.of(context).size;
-          final historyTodos =
-              state.todos.filter((t) => t.date?.compareTo(now) == -1);
+          final historyTodos = state.todos.filter((t) =>
+              t.date?.compareTo(context.read<ScheduleBloc>().state.datetime) ==
+              -1);
+
           return TodosOverviewBackgroundBox(
             child: Scaffold(
               backgroundColor: Colors.transparent,
               endDrawer: const TodosOverviewDrawer(),
               drawerScrimColor: Colors.transparent,
-              // bottomSheet: draftContainer,
-              bottomNavigationBar: BottomAppBar(
-                color: Colors.white,
+              drawer: Align(
+                alignment: Alignment.bottomLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Scaffold.of(context).showBottomSheet(
-                            (contexts) => Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          Navigator.of(contexts).pop();
-                                        },
-                                        icon: const Icon(Icons.list),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          log('canUndo: ${context.read<TodoBloc>().canUndo}');
-                                          context.read<TodoBloc>().undo();
-                                        },
-                                        color: Colors.black,
-                                        icon: const Icon(Icons.arrow_back),
-                                      )
-                                    ]),
-                                MultiBlocProvider(
-                                  providers: [
-                                    BlocProvider.value(
-                                      value: BlocProvider.of<TodosOverviewBloc>(
-                                        context,
-                                      ),
-                                    ),
-                                    BlocProvider.value(
-                                        value:
-                                            BlocProvider.of<TodoBloc>(context)),
-                                  ],
-                                  child: BlocBuilder<TodosOverviewBloc,
-                                      TodosOverviewState>(
-                                    builder: (context, state) =>
-                                        TodosDraftContainer(
-                                      todos: state.todos
-                                          .filter((e) => e.date == null)
-                                          .toList(),
-                                      height: size.height / 4,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        color: Colors.black,
-                        icon: const Icon(Icons.list),
-                      ),
-                      Text(
-                        historyTodos.length
-                            .toString(),
-                        style: theme.textTheme.caption?.copyWith(
-                          color: Colors.grey,
-                          fontSize: 40,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ],
+                  padding: const EdgeInsets.only(bottom: 80, left: 10),
+                  child: TodosOverviewHistoryContainer(
+                    controller: _scrollController,
+                    todos: historyTodos.toList(),
                   ),
                 ),
+              ),
+              // bottomSheet: draftContainer,
+              bottomNavigationBar: TodosOverviewBottomAppBar(
+                historyTodos: historyTodos.toList(),
               ),
               body: Stack(
                 alignment: Alignment.topCenter,
@@ -213,10 +150,7 @@ class TodosOverviewView extends StatelessWidget {
                   Container(
                     alignment: Alignment.bottomRight,
                     padding: const EdgeInsets.only(bottom: 10, right: 10),
-                    child: TodosOverviewHistoryContainer(
-                      todos: historyTodos.toList(),
-                    ),
-                  )
+                  ),
                 ],
               ),
             ),

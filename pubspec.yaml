@@ -56,6 +56,7 @@ dependencies:
   bloc_concurrency: ^0.2.0
   replay_bloc: ^0.2.2
   flow_builder: ^0.0.9
+  package_info_plus: ^3.0.2
 
   json_annotation: ^4.7.0
 
@@ -64,6 +65,10 @@ dependencies:
   rxdart: ^0.27.5
   shared_preferences: ^2.0.15
   animations: ^2.0.7
+
+  scrollable_positioned_list: ^0.3.5
+
+
 
   server_storage_todos_api_impl:
     path: packages/todos/server_storage_todos_api_impl
@@ -74,7 +79,7 @@ dependencies:
   todos_repository:
     path: packages/todos/todos_repository
 
-#dependency_overrides:
+  #dependency_overrides:
 
 #  unofficial_notionapi:
 #    git:
