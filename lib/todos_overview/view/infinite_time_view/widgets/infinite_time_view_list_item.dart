@@ -15,8 +15,8 @@ import 'package:todos/todos_overview/bloc/todos_overview_bloc.dart';
 import 'package:todos/todos_overview/widgets/todo_list_tile.dart';
 import 'package:todos_repository/todos_repository.dart';
 
-class TodoDateTimeBox extends StatelessWidget {
-  TodoDateTimeBox({
+class TodoDateTimeListItem extends StatelessWidget {
+  TodoDateTimeListItem({
     super.key,
     required this.date,
     required this.now,

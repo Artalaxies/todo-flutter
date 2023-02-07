@@ -7,7 +7,10 @@ import 'dart:ui';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:todos/app/widgets/avatar.dart';
+import 'package:todos/todos_overview/bloc/todos_overview_bloc.dart';
 
 class TodosOverviewAppbar extends StatelessWidget {
   const TodosOverviewAppbar(this.controller, {super.key});
@@ -25,23 +28,31 @@ class TodosOverviewAppbar extends StatelessWidget {
       toolbarHeight: 50,
       automaticallyImplyLeading: false,
       centerTitle: true,
-      title: IconButton(
-        color: Colors.black,
-        onPressed: () {
-          controller.animateTo(
-            0,
-            duration: Duration(
-              milliseconds: controller.offset.abs().toInt() > 10000
-                  ? 10000
-                  : controller.offset.abs().toInt(),
-            ),
-            curve: Curves.easeInOutQuart,
-          );
-        },
-        icon: const Icon(Icons.arrow_upward),
-      ),
+      // title: IconButton(
+      //   color: Colors.black,
+      //   onPressed: () {
+      //     controller.animateTo(
+      //       0,
+      //       duration: Duration(
+      //         milliseconds: controller.offset.abs().toInt() > 10000
+      //             ? 10000
+      //             : controller.offset.abs().toInt(),
+      //       ),
+      //       curve: Curves.easeInOutQuart,
+      //     );
+      //   },
+      //   icon: const Icon(Icons.arrow_upward),
+      // ),
       flexibleSpace: CustomPaint(
-        painter: AppbarPainter(padding: paddingSize),
+        painter: AppbarPainter(
+          padding: paddingSize,
+          taskNumber: context
+              .read<TodosOverviewBloc>()
+              .state
+              .todos
+              .filter((t) => !t.isCompleted)
+              .length,
+        ),
       ),
       actions: [
         IconButton(
@@ -68,6 +79,7 @@ class TodosOverviewAppbar extends StatelessWidget {
 class AppbarPainter extends CustomPainter {
   AppbarPainter({
     required this.padding,
+    required this.taskNumber,
     ui.TextStyle? textStyle,
   }) {
     _textStyle = textStyle ?? ui.TextStyle(color: Colors.black);
@@ -75,6 +87,7 @@ class AppbarPainter extends CustomPainter {
 
   late final ui.TextStyle _textStyle;
   final double padding;
+  final int taskNumber;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -109,7 +122,7 @@ class AppbarPainter extends CustomPainter {
       (ParagraphBuilder(ParagraphStyle(maxLines: 1))
             ..pushStyle(style)
             ..addText(
-              'Today 0/0',
+              'Today $taskNumber',
             ))
           .build()
         ..layout(const ParagraphConstraints(width: 500)),

@@ -4,7 +4,6 @@
  */
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todos_repository/todos_repository.dart';
 
 class InfiniteTimeViewState {
   InfiniteTimeViewState({

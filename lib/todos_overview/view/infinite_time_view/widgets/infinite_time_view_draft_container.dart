@@ -9,8 +9,9 @@ import 'package:todos/todos_overview/bloc/todos_overview_bloc.dart';
 import 'package:todos/todos_overview/widgets/todo_list_tile.dart';
 import 'package:todos_repository/todos_repository.dart';
 
-class TodosDraftContainer extends StatelessWidget {
-  const TodosDraftContainer({super.key, required this.todos, this.height});
+class InfiniteTimeViewDraftContainer extends StatelessWidget {
+  const InfiniteTimeViewDraftContainer(
+      {super.key, required this.todos, this.height});
 
   final List<Todo> todos;
   final double? height;

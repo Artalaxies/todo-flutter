@@ -5,8 +5,8 @@
 
 import 'package:flutter/material.dart';
 
-class TodosOverviewBackgroundBox extends StatelessWidget {
-  const TodosOverviewBackgroundBox({super.key, this.child});
+class InfiniteTimeViewBackgroundContainer extends StatelessWidget {
+  const InfiniteTimeViewBackgroundContainer({super.key, this.child});
 
   final Widget? child;
 

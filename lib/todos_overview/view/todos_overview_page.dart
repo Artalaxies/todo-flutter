@@ -12,11 +12,14 @@ import 'package:todos/app/schedule_bloc/schedule_state.dart';
 import 'package:todos/l10n/l10n.dart';
 import 'package:todos/todos_overview/todo_bloc/todo_bloc.dart';
 import 'package:todos/todos_overview/todos_overview.dart';
-import 'package:todos/todos_overview/view/todos_overview_infinite_time_view.dart';
+import 'package:todos/todos_overview/view/infinite_time_view/view/infinite_time_view.dart';
+import 'package:todos/todos_overview/view/normal_view/todos_overview_nomarl_view.dart';
 import 'package:todos/todos_overview/widgets/todos_overview_bottom_appbar.dart';
 import 'package:todos/todos_overview/widgets/todos_overview_drawer.dart';
 import 'package:todos/todos_overview/widgets/todos_overview_history_container.dart';
 import 'package:todos_repository/todos_repository.dart';
+
+import '../widgets/page_flip_builder.dart';
 
 class TodosOverviewPage extends StatelessWidget {
   const TodosOverviewPage({super.key});
@@ -109,50 +112,68 @@ class TodosOverviewView extends StatelessWidget {
         builder: (context, state) {
           final theme = Theme.of(context);
           final size = MediaQuery.of(context).size;
-          final historyTodos = state.todos.filter((t) =>
-              t.date?.compareTo(context.read<ScheduleBloc>().state.datetime) ==
-              -1);
+          final flipKey = GlobalKey<PageFlipBuilderState>();
+          final historyTodos = state.todos.filter(
+            (t) =>
+                t.date
+                    ?.compareTo(context.read<ScheduleBloc>().state.datetime) ==
+                -1,
+          );
 
-          return TodosOverviewBackgroundBox(
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              endDrawer: const TodosOverviewDrawer(),
-              drawerScrimColor: Colors.transparent,
-              drawer: Align(
-                alignment: Alignment.bottomLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 80, left: 10),
-                  child: TodosOverviewHistoryContainer(
-                    controller: _scrollController,
-                    todos: historyTodos.toList(),
-                  ),
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            endDrawer: const TodosOverviewDrawer(),
+            drawerScrimColor: Colors.transparent,
+            drawer: Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 80, left: 10),
+                child: TodosOverviewHistoryContainer(
+                  controller: _scrollController,
+                  todos: historyTodos.toList(),
                 ),
               ),
-              // bottomSheet: draftContainer,
-              bottomNavigationBar: TodosOverviewBottomAppBar(
-                historyTodos: historyTodos.toList(),
-              ),
-              body: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  TodosOverviewInfiniteTimeView(
+            ),
+            // bottomSheet: draftContainer,
+            bottomNavigationBar: TodosOverviewBottomAppBar(
+              historyTodos: historyTodos.toList(),
+              flipKey: flipKey,
+            ),
+            body: Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                // TodosOverviewInfiniteTimeView(
+                //   controller: _scrollController,
+                //   now: context.read<ScheduleBloc>().state.datetime,
+                //   padding: MediaQuery.of(context).padding.top,
+                // ),
+                // TodosOverviewNormalView(
+                //   controller: _scrollController,
+                //   now: context.read<ScheduleBloc>().state.datetime,
+                // ),
+                PageFlipBuilder(
+                  key: flipKey,
+                  interactiveFlipEnabled: false,
+                  frontBuilder: (context) => TodosOverviewInfiniteTimeView(
                     controller: _scrollController,
                     now: context.read<ScheduleBloc>().state.datetime,
                     padding: MediaQuery.of(context).padding.top,
                   ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    height: 50 + MediaQuery.of(context).padding.top,
-                    child: TodosOverviewAppbar(
-                      _scrollController,
-                    ),
+                  backBuilder: (BuildContext context) =>
+                      TodosOverviewNormalView(
+                    controller: _scrollController,
+                    now: context.read<ScheduleBloc>().state.datetime,
+                    padding: MediaQuery.of(context).padding.top,
                   ),
-                  Container(
-                    alignment: Alignment.bottomRight,
-                    padding: const EdgeInsets.only(bottom: 10, right: 10),
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  height: 50 + MediaQuery.of(context).padding.top,
+                  child: TodosOverviewAppbar(
+                    _scrollController,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },

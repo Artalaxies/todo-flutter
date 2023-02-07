@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todos/l10n/l10n.dart';
 
 class LogPage extends StatelessWidget {
@@ -19,7 +20,7 @@ class LogPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon( Icons.arrow_back),
           onPressed: (){
-            Navigator.pop(context);
+            context.go('/');
           },
         ),
         title: const Text('Logs'),

@@ -3,6 +3,8 @@
  * Unauthorized copying or redistribution of this file in source and binary forms via any medium is strictly prohibited.
  */
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todos/app/schedule_bloc/schedule_bloc.dart';
@@ -38,16 +40,17 @@ class TodosOverviewHistoryContainer extends StatelessWidget {
                     onPressed: () {
                       final currentContext = todos[index].key.currentContext;
                       final times = context
-                              .read<ScheduleBloc>()
-                              .state
-                              .datetime
-                              .difference(todos[index].date!)
-                              .inMinutes ~/
-                          5;
+                                  .read<ScheduleBloc>()
+                                  .state
+                                  .datetime
+                                  .difference(todos[index].date!)
+                                  .inMinutes ~/
+                              5 +
+                          1;
                       controller.animateTo(
                         -(84 * times).toDouble(),
-                        duration: const Duration(seconds: 1),
-                        curve: Curves.linear,
+                        duration: Duration(milliseconds: min(times * 50, 5000)),
+                        curve: Curves.easeInOutQuart,
                       );
                       if (currentContext != null) {
                         Scrollable.ensureVisible(

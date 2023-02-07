@@ -8,8 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todos/app/tabs_cubit/general_tabs_cubit.dart';
 import 'package:todos/app/user_bloc/general_user_bloc.dart';
-import 'package:todos/app/widgets/avatar.dart';
-import 'package:todos/edit_todo/view/edit_todo_page.dart';
 
 class GeneralPageFrame extends StatelessWidget {
   const GeneralPageFrame({
@@ -41,7 +39,10 @@ class GeneralPageFrameView extends StatelessWidget {
     final authUser = context.read<GeneralUserBloc>().state.user;
 
     return Scaffold(
-      body: page,
+      body: ColoredBox(
+        color: const Color(0xFFE8E0C2),
+        child: page,
+      ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       // floatingActionButton: FloatingActionButton(
       //   key: const Key('homeView_addTodo_floatingActionButton'),
