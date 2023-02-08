@@ -1,12 +1,14 @@
+## 0.1.0
 
-
+- Implemented multiple views for tasks
+- Updated general view structure
 
 ## 0.0.2
 
 - Issues
   - [x] Time changing is not synchronous to the scroll view
   - [ ] Time view task not always on the correct time stub.
-- Implement plan 
+- Implement plan
   - Server API
   - Plugin Integration Interface
   - Complete the UI stereotype interface

@@ -53,8 +53,9 @@ class _TodosOverviewInfiniteTimeView extends StatelessWidget {
     final theme = Theme.of(context);
     final captionTextStyle = theme.textTheme.caption?.getTextStyle() ??
         ui.TextStyle(color: Colors.blue);
-    final todos = context.read<TodosOverviewBloc>().state.todos
-      ..sort((ta, tb) {
+    final todos = context.read<TodosOverviewBloc>().state.todos;
+    if (todos.isNotEmpty) {
+      todos.sort((ta, tb) {
         if (ta.date == null) {
           return 0;
         } else if (tb.date == null) {
@@ -63,6 +64,7 @@ class _TodosOverviewInfiniteTimeView extends StatelessWidget {
           return -ta.date!.compareTo(tb.date!);
         }
       });
+    }
     final hisTodos = todos.filter((t) => t.isCompleted).toList();
     final undoTodos = todos.filter((t) => !t.isCompleted).toList();
 
