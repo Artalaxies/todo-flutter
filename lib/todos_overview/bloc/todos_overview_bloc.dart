@@ -4,16 +4,13 @@
  */
 
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:todos/todos_overview/todos_overview.dart';
-
 import 'package:todos_repository/todos_repository.dart';
 
 part 'todos_overview_event.dart';
-
 part 'todos_overview_state.dart';
 
 class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
@@ -30,10 +27,18 @@ class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
     on<TodosOverviewToggleAllRequested>(_onToggleAllRequested);
     on<TodosOverviewClearCompletedRequested>(_onClearCompletedRequested);
     on<TodosOverviewTodoChanged>(_onTodoChanged);
+    on<TodosOverviewViewChanged>(_onViewChanged);
     // on<TodosOverviewSyncRequested>(_onSyncRequested);
   }
 
   final TodosRepository _todosRepository;
+
+  Future<void> _onViewChanged(
+    TodosOverviewViewChanged event,
+    Emitter<TodosOverviewState> emit,
+  ) async {
+    emit(state.copyWith(status: () => TodosOverviewStatus.loading));
+  }
 
   Future<void> _onTodoChanged(
     TodosOverviewTodoChanged event,

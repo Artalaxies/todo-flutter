@@ -7,7 +7,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todos/app/schedule_bloc/schedule_bloc.dart';
+import 'package:todos/todos_overview/schedule_bloc/schedule_bloc.dart';
 import 'package:todos_repository/todos_repository.dart';
 
 class TodosOverviewHistoryContainer extends StatelessWidget {

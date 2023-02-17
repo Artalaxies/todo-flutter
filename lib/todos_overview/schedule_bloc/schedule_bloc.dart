@@ -6,8 +6,8 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todos/app/schedule_bloc/schedule_event.dart';
-import 'package:todos/app/schedule_bloc/schedule_state.dart';
+import 'package:todos/todos_overview/schedule_bloc/schedule_event.dart';
+import 'package:todos/todos_overview/schedule_bloc/schedule_state.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   ScheduleBloc() : super(ScheduleState()) {

@@ -40,21 +40,17 @@ class TodosOverviewDrawer extends StatelessWidget {
               title: const Text('Integrations'),
               onTap: () {},
             ),
-            ListTile(
-              title: const Text('Logs'),
-              onTap: () {
-                if (context.read<GeneralUserBloc>().state.user.isEmpty) {
-                  context.go('/logs');
-                }
-              },
-            ),
             FutureBuilder(
               future: PackageInfo.fromPlatform(),
-              builder: (context, snapshot) => Padding(
-                padding: const EdgeInsets.all(15),
-                child: Text(
+              builder: (context, snapshot) => ListTile(
+                title: Text(
                   'v${snapshot.data?.version ?? '0.0.0'}',
                 ),
+                onTap: () {
+                  if (context.read<GeneralUserBloc>().state.user.isEmpty) {
+                    context.go('/logs');
+                  }
+                },
               ),
             )
           ],

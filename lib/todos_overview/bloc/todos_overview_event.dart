@@ -51,6 +51,15 @@ class TodosOverviewTodoChanged extends TodosOverviewEvent {
   List<Object> get props => [todo];
 }
 
+class TodosOverviewViewChanged extends TodosOverviewEvent {
+  const TodosOverviewViewChanged(this.index);
+
+  final int index;
+
+  @override
+  List<Object> get props => [index];
+}
+
 class TodosOverviewUndoDeletionRequested extends TodosOverviewEvent {
   const TodosOverviewUndoDeletionRequested();
 }

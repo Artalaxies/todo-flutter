@@ -6,10 +6,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:todos/app/schedule_bloc/schedule_bloc.dart';
-import 'package:todos/app/schedule_bloc/schedule_event.dart';
-import 'package:todos/app/schedule_bloc/schedule_state.dart';
 import 'package:todos/l10n/l10n.dart';
+import 'package:todos/todos_overview/schedule_bloc/schedule_bloc.dart';
 import 'package:todos/todos_overview/todo_bloc/todo_bloc.dart';
 import 'package:todos/todos_overview/todos_overview.dart';
 import 'package:todos/todos_overview/view/infinite_time_view/view/infinite_time_view.dart';
@@ -19,6 +17,8 @@ import 'package:todos/todos_overview/widgets/todos_overview_drawer.dart';
 import 'package:todos/todos_overview/widgets/todos_overview_history_container.dart';
 import 'package:todos_repository/todos_repository.dart';
 
+import '../schedule_bloc/schedule_event.dart';
+import '../schedule_bloc/schedule_state.dart';
 import '../widgets/page_flip_builder.dart';
 
 class TodosOverviewPage extends StatelessWidget {
@@ -35,6 +35,9 @@ class TodosOverviewPage extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => TodoBloc(context.read<TodosRepository>()),
+        ),
+        BlocProvider(
+          create: (context) => ScheduleBloc(),
         ),
       ],
       child: TodosOverviewView(),

@@ -8,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:todos/login/cubit/login_cubit.dart';
 
 class LoginForm extends StatelessWidget {
@@ -28,8 +27,10 @@ class LoginForm extends StatelessWidget {
             );
         }
       },
-      child: SingleChildScrollView(
+      child: Center(
+        child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
@@ -49,6 +50,7 @@ class LoginForm extends StatelessWidget {
             ],
           ),
         ),
+      ),
 
     );
   }
@@ -151,7 +153,7 @@ class _SignUpButton extends StatelessWidget {
     final theme = Theme.of(context);
     return TextButton(
       key: const Key('loginForm_createAccount_flatButton'),
-      onPressed: () => context.go('signup'),
+      onPressed: () => context.go('/signup'),
       child: Text(
         'CREATE ACCOUNT',
         style: TextStyle(color: theme.primaryColor),

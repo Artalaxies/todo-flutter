@@ -11,12 +11,12 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:todos/app/schedule_bloc/schedule_bloc.dart';
-import 'package:todos/app/schedule_bloc/schedule_state.dart';
+import 'package:todos/todos_overview/schedule_bloc/schedule_bloc.dart';
 import 'package:todos/todos_overview/view/infinite_time_view/bloc/infinite_time_view_bloc.dart';
 import 'package:todos/todos_overview/view/infinite_time_view/widgets/infinite_time_view_list_item.dart';
 
 import '../../../bloc/todos_overview_bloc.dart';
+import '../../../schedule_bloc/schedule_state.dart';
 import '../../../todo_bloc/todo_bloc.dart';
 import '../widgets/infinite_time_view_background_container.dart';
 import '../widgets/infinite_time_view_draft_container.dart';
@@ -139,9 +139,8 @@ class _TodosOverviewInfiniteTimeView extends StatelessWidget {
                                       onPressed: () {
                                         Navigator.of(contexts).pop();
                                       },
-                                      color: Colors.grey,
                                       child: const Icon(
-                                        Icons.list,
+                                        Icons.arrow_downward,
                                         color: Colors.black,
                                       ),
                                     ),
