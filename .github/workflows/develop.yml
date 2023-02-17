@@ -65,17 +65,18 @@ jobs:
       - run: flutter test
       - run: flutter build web
 
-  deploy:
+  file_sync:
     if: always()
     needs: build
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Files Sync Action
-        uses: adrianjost/files-sync-action@v1.4.1
+      - name: Fetching Local Repository
+        uses: actions/checkout@master
+      - name: File Sync
+        uses: kbrashears5/github-action-file-sync@v2.2.0
         with:
-          FILE_PATTERNS: |
-            ^build/web/\S
-          TARGET_REPOS: |
-            Artalaxies/infinitedo-deploy
-          GITHUB_TOKEN: ${{secrets.SYNCED_GITHUB_TOKEN}}
+          REPOSITORIES: |
+            Artalaxies/infinitedo-deploy@main
+          FILES: |
+            build/web/=/
+          TOKEN: ${{ secrets.SYNCED_GITHUB_TOKEN }}
