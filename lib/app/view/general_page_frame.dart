@@ -44,7 +44,7 @@ class GeneralPageFrameView extends StatelessWidget {
     return Scaffold(
       body: ColoredBox(
         color: const Color(0xFFE8E0C2),
-        child: size.width < 700
+        child: size.width < 900
             ? page
             : GeneralPageNavigationRail(
                 rail: const TodosOverviewPage(),

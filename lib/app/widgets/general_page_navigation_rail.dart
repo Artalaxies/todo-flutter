@@ -14,6 +14,8 @@ class GeneralPageNavigationRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       body: Row(
         children: [
@@ -21,12 +23,13 @@ class GeneralPageNavigationRail extends StatelessWidget {
             width: 500,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black12),
-              color: const Color(0xFFE8E0C2),
+              color: theme.drawerTheme.backgroundColor,
             ),
             child: rail,
           ),
-          SizedBox(
+          Container(
             width: MediaQuery.of(context).size.width - 500,
+            color: theme.backgroundColor,
             child: () {
               if (GoRouter.of(context).location == '/') {
                 return Container();
