@@ -9,8 +9,8 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:todos/app/user_bloc/general_user_bloc.dart';
 
-class TodosOverviewDrawer extends StatelessWidget {
-  const TodosOverviewDrawer({super.key});
+class GeneralPageEndDrawer extends StatelessWidget {
+  const GeneralPageEndDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,10 @@ class TodosOverviewDrawer extends StatelessWidget {
         bottom: 100,
         right: 20,
       ),
-      width: MediaQuery.of(context).size.width * 0.5,
+      constraints: const BoxConstraints(
+        maxWidth: 400,
+        minWidth: 200,
+      ),
       child: ColoredBox(
         color: Colors.white54,
         child: Column(

@@ -12,7 +12,8 @@ class FlutterTodosTheme {
           color: Color(0xFF13B9FF),
         ),
         colorScheme: ColorScheme.fromSwatch(
-          accentColor: const Color(0xFF13B9FF),
+          accentColor: const Color(0xFFE8E0C2),
+          backgroundColor: const Color(0xFFC0B89E),
         ),
         snackBarTheme: const SnackBarThemeData(
           behavior: SnackBarBehavior.floating,

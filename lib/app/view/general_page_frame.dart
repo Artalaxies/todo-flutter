@@ -8,9 +8,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todos/app/tabs_cubit/general_tabs_cubit.dart';
 import 'package:todos/app/user_bloc/general_user_bloc.dart';
+import 'package:todos/app/view/general_not_found_page.dart';
+import 'package:todos/app/widgets/general_page_end_drawer.dart';
+import 'package:todos/app/widgets/general_page_navigation_rail.dart';
 import 'package:todos/todos_overview/todos_overview.dart';
 
-import '../widgets/general_page_navigation_rail.dart';
+import '../widgets/avatar.dart';
 
 class GeneralPageFrame extends StatelessWidget {
   const GeneralPageFrame({
@@ -41,47 +44,81 @@ class GeneralPageFrameView extends StatelessWidget {
     );
     final authUser = context.read<GeneralUserBloc>().state.user;
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
+
     return Scaffold(
-      body: ColoredBox(
-        color: const Color(0xFFE8E0C2),
-        child: size.width < 900
-            ? page
-            : GeneralPageNavigationRail(
-                rail: const TodosOverviewPage(),
-                child: page,
-              ),
-      ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      // floatingActionButton: FloatingActionButton(
-      //   key: const Key('homeView_addTodo_floatingActionButton'),
-      //   onPressed: () => Navigator.of(context).push(EditTodoPage.route()),
-      //   // child: const Icon(Icons.add),
-      //   backgroundColor: Colors.transparent,
-      //   child: Avatar(photo: authUser.photo),
-      // ),
-      // bottomNavigationBar: BottomAppBar(
-      //   shape: const CircularNotchedRectangle(),
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //     children: [
-      //       _HomeTabButton(
-      //         groupValue: selectedTab,
-      //         value: BottomTab.todos,
-      //         icon: const Icon(Icons.list_rounded),
-      //       ),
-      //       _HomeTabButton(
-      //         groupValue: selectedTab,
-      //         value: BottomTab.stats,
-      //         icon: const Icon(Icons.show_chart_rounded),
-      //       ),
-      //       BackButton(
-      //         onPressed: ()=> context.go('/login'),
-      //       ),
-      //       Avatar(photo: authUser.photo)
-      //     ],
-      //   ),
-      // ),
-    );
+        backgroundColor: theme.backgroundColor,
+        drawerScrimColor: Colors.transparent,
+        endDrawer: const GeneralPageEndDrawer(),
+        body: Stack(children: [
+          ...size.width < 900
+              ? [page ?? const GeneralNotFoundPage()]
+              : [
+                  GeneralPageNavigationRail(
+                    rail: const TodosOverviewPage(),
+                    child: page,
+                  ),
+                ],
+          Container(
+            alignment: Alignment.topRight,
+            padding: const EdgeInsets.only(right: 10),
+            height: 80 + MediaQuery.of(context).padding.top,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  color: Colors.black,
+                  onPressed: () {},
+                  iconSize: 30,
+                  icon: const Icon(Icons.search),
+                ),
+                Builder(
+                  builder: (context) => IconButton(
+                    iconSize: 30,
+                    onPressed: () {
+                      Scaffold.of(context).openEndDrawer();
+                      // if(context.read<GeneralUserBloc>().state.user.isEmpty){
+                      //   context.go('/login');
+                      // }
+                    },
+                    icon: const Avatar(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ])
+        // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        // floatingActionButton: FloatingActionButton(
+        //   key: const Key('homeView_addTodo_floatingActionButton'),
+        //   onPressed: () => Navigator.of(context).push(EditTodoPage.route()),
+        //   // child: const Icon(Icons.add),
+        //   backgroundColor: Colors.transparent,
+        //   child: Avatar(photo: authUser.photo),
+        // ),
+        // bottomNavigationBar: BottomAppBar(
+        //   shape: const CircularNotchedRectangle(),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //     children: [
+        //       _HomeTabButton(
+        //         groupValue: selectedTab,
+        //         value: BottomTab.todos,
+        //         icon: const Icon(Icons.list_rounded),
+        //       ),
+        //       _HomeTabButton(
+        //         groupValue: selectedTab,
+        //         value: BottomTab.stats,
+        //         icon: const Icon(Icons.show_chart_rounded),
+        //       ),
+        //       BackButton(
+        //         onPressed: ()=> context.go('/login'),
+        //       ),
+        //       Avatar(photo: authUser.photo)
+        //     ],
+        //   ),
+        // ),
+        );
   }
 }
 

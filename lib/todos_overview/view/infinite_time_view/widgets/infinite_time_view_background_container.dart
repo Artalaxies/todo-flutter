@@ -42,23 +42,25 @@ class BackgroundCustomPainter extends CustomPainter {
       (index) => (index - 5).abs(),
     ).toList();
     content.asMap().forEach((index, value) {
-      canvas
-        ..drawLine(
-          Offset(0, size.height / 2 - (content.length - index) * 10),
-          Offset(
-            50 - value * 15,
+      final double leftLinePoint = 50 - value * 15;
+      final double rightLinePoint = size.width - (50 - value * 15);
+
+
+      canvas..drawLine(
+        Offset(0, size.height / 2 - (content.length - index) * 10),
+        Offset(
+          leftLinePoint < 0 ? 0 : leftLinePoint,
+          size.height / 2 - (content.length - index) * 10,
+        ),
+        paint,
+      )..drawLine(
+        Offset(
+          rightLinePoint > size.width ? size.width : rightLinePoint,
             size.height / 2 - (content.length - index) * 10,
           ),
-          paint,
-        )
-        ..drawLine(
-          Offset(
-            size.width - (50 - value * 15),
-            size.height / 2 - (content.length - index) * 10,
-          ),
-          Offset(size.width, size.height / 2 - (content.length - index) * 10),
-          paint,
-        );
+        Offset(size.width, size.height / 2 - (content.length - index) * 10),
+        paint,
+      );
     });
   }
 }

@@ -120,7 +120,7 @@ class _TodosOverviewInfiniteTimeView extends StatelessWidget {
                         curve: Curves.easeInOutQuart,
                       );
                     },
-                    icon: const Icon(Icons.arrow_upward),
+                    icon: const Icon(Icons.adjust_rounded),
                   ),
                   IconButton(
                     onPressed: () {

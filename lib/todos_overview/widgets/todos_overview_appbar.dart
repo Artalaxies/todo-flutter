@@ -9,7 +9,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:todos/app/widgets/avatar.dart';
 import 'package:todos/todos_overview/bloc/todos_overview_bloc.dart';
 
 class TodosOverviewAppbar extends StatelessWidget {
@@ -54,24 +53,24 @@ class TodosOverviewAppbar extends StatelessWidget {
               .length,
         ),
       ),
-      actions: [
-        IconButton(
-          color: Colors.black,
-          onPressed: () {},
-          icon: const Icon(Icons.search),
-        ),
-        Builder(
-          builder: (context) => IconButton(
-            onPressed: () {
-              Scaffold.of(context).openEndDrawer();
-              // if(context.read<GeneralUserBloc>().state.user.isEmpty){
-              //   context.go('/login');
-              // }
-            },
-            icon: const Avatar(),
-          ),
-        ),
-      ],
+      // actions: [
+      //   IconButton(
+      //     color: Colors.black,
+      //     onPressed: () {},
+      //     icon: const Icon(Icons.search),
+      //   ),
+      //   Builder(
+      //     builder: (context) => IconButton(
+      //       onPressed: () {
+      //         Scaffold.of(context).openEndDrawer();
+      //         // if(context.read<GeneralUserBloc>().state.user.isEmpty){
+      //         //   context.go('/login');
+      //         // }
+      //       },
+      //       icon: const Avatar(),
+      //     ),
+      //   ),
+      // ],
     );
   }
 }

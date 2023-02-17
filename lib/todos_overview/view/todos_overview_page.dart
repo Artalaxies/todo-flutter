@@ -13,7 +13,6 @@ import 'package:todos/todos_overview/todos_overview.dart';
 import 'package:todos/todos_overview/view/infinite_time_view/view/infinite_time_view.dart';
 import 'package:todos/todos_overview/view/normal_view/todos_overview_nomarl_view.dart';
 import 'package:todos/todos_overview/widgets/todos_overview_bottom_appbar.dart';
-import 'package:todos/todos_overview/widgets/todos_overview_drawer.dart';
 import 'package:todos/todos_overview/widgets/todos_overview_history_container.dart';
 import 'package:todos_repository/todos_repository.dart';
 
@@ -138,7 +137,6 @@ class TodosOverviewView extends StatelessWidget {
 
           return Scaffold(
             backgroundColor: Colors.transparent,
-            endDrawer: const TodosOverviewDrawer(),
             drawerScrimColor: Colors.transparent,
             drawer: Align(
               alignment: Alignment.bottomLeft,

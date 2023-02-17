@@ -27,8 +27,8 @@ class TodosOverviewHistoryContainer extends StatelessWidget {
     return Container(
       color: Colors.white,
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.width * 0.4,
-        maxWidth: MediaQuery.of(context).size.width * 0.5,
+        maxHeight: MediaQuery.of(context).size.height * 0.4,
+        maxWidth: 400,
         minWidth: 50,
       ),
       child: CustomScrollView(

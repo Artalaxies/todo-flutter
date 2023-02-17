@@ -6,6 +6,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../view/general_default_page.dart';
+
 class GeneralPageNavigationRail extends StatelessWidget {
   const GeneralPageNavigationRail({super.key, this.rail, this.child});
 
@@ -16,30 +18,29 @@ class GeneralPageNavigationRail extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
-      body: Row(
-        children: [
-          Container(
-            width: 500,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black12),
-              color: theme.drawerTheme.backgroundColor,
-            ),
-            child: rail,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width - 500,
-            color: theme.backgroundColor,
-            child: () {
-              if (GoRouter.of(context).location == '/') {
-                return Container();
-              } else {
-                return child ?? Container();
-              }
-            }(),
-          ),
-        ],
-      ),
-    );
+    return rail != null
+        ? Row(
+            children: [
+              Container(
+                width: 500,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black12, width: 2),
+                  color: theme.drawerTheme.backgroundColor,
+                ),
+                child: rail,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 500,
+                child: () {
+                  if (GoRouter.of(context).location == '/') {
+                    return GeneralDefaultPage();
+                  } else {
+                    return child ?? const GeneralDefaultPage();
+                  }
+                }(),
+              ),
+            ],
+          )
+        : child ?? const GeneralDefaultPage();
   }
 }
