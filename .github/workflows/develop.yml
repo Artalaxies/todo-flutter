@@ -22,25 +22,61 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-      - name: Flutter Environment
-        uses: subosito/flutter-action@v2
+      - name: Write File
+        uses: DamianReeves/write-file-action@v1.2
         with:
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter test
-      - run: flutter build web
+          path: ${{github.workspace}}/lib/firebase_options.dart
+          contents: |
+            import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
+            import 'package:flutter/foundation.dart'
+            show defaultTargetPlatform, kIsWeb, TargetPlatform;
+            class DefaultFirebaseOptions {
+              static FirebaseOptions? get currentPlatform {
+                if (kIsWeb) {
+                  return web;
+                }
+                switch (defaultTargetPlatform) {
+                  case TargetPlatform.android:
+                    return null;
+                  case TargetPlatform.iOS:
+                    return null;
+                  case TargetPlatform.macOS:
+                    return null;
+                  case TargetPlatform.windows:
+                    return null;
+                  case TargetPlatform.linux:
+                    return null;
+                  default:
+                    throw UnsupportedError(
+                    'DefaultFirebaseOptions are not supported for this platform.',
+                    );
+                  }
+                }
+            
+            static const FirebaseOptions web = FirebaseOptions(
+              ${{secrets.FIREBASE_TOKEN}});
+            }
 
-  deploy:
-    if: always()
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Files Sync Action
-        uses: adrianjost/files-sync-action@v1.4.1
-        with:
-          FILE_PATTERNS: |
-            ^build/web/\S
-          TARGET_REPOS: |
-            Artalaxies/infinitedo-deploy
-          GITHUB_TOKEN: ${{secrets.SYNCED_GITHUB_TOKEN}}
+write-mode: overwrite
+              - name: Flutter Environment
+              uses: subosito/flutter-action@v2
+              with:
+                channel: 'stable'
+              - run: flutter pub get
+              - run: flutter test
+              - run: flutter build web
+
+              deploy:
+                if: always()
+                needs: build
+                runs-on: ubuntu-latest
+                steps:
+                  # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+                  - name: Files Sync Action
+                    uses: adrianjost/files-sync-action@v1.4.1
+                    with:
+                      FILE_PATTERNS: |
+                        ^build/web/\S
+                      TARGET_REPOS: |
+                        Artalaxies/infinitedo-deploy
+                      GITHUB_TOKEN: ${{secrets.SYNCED_GITHUB_TOKEN}}
