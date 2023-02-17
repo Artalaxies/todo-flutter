@@ -123,6 +123,19 @@ class TodosOverviewView extends StatelessWidget {
                 -1,
           );
 
+          final views = [
+            TodosOverviewInfiniteTimeView(
+              controller: _scrollController,
+              now: context.read<ScheduleBloc>().state.datetime,
+              padding: MediaQuery.of(context).padding.top,
+            ),
+            TodosOverviewNormalView(
+              controller: _scrollController,
+              now: context.read<ScheduleBloc>().state.datetime,
+              padding: MediaQuery.of(context).padding.top,
+            )
+          ];
+
           return Scaffold(
             backgroundColor: Colors.transparent,
             endDrawer: const TodosOverviewDrawer(),
@@ -154,21 +167,22 @@ class TodosOverviewView extends StatelessWidget {
                 //   controller: _scrollController,
                 //   now: context.read<ScheduleBloc>().state.datetime,
                 // ),
-                PageFlipBuilder(
-                  key: flipKey,
-                  interactiveFlipEnabled: false,
-                  frontBuilder: (context) => TodosOverviewInfiniteTimeView(
-                    controller: _scrollController,
-                    now: context.read<ScheduleBloc>().state.datetime,
-                    padding: MediaQuery.of(context).padding.top,
-                  ),
-                  backBuilder: (BuildContext context) =>
-                      TodosOverviewNormalView(
-                    controller: _scrollController,
-                    now: context.read<ScheduleBloc>().state.datetime,
-                    padding: MediaQuery.of(context).padding.top,
-                  ),
-                ),
+                // PageFlipBuilder(
+                //   key: flipKey,
+                //   interactiveFlipEnabled: false,
+                //   frontBuilder: (context) => TodosOverviewInfiniteTimeView(
+                //     controller: _scrollController,
+                //     now: context.read<ScheduleBloc>().state.datetime,
+                //     padding: MediaQuery.of(context).padding.top,
+                //   ),
+                //   backBuilder: (BuildContext context) =>
+                //       TodosOverviewNormalView(
+                //     controller: _scrollController,
+                //     now: context.read<ScheduleBloc>().state.datetime,
+                //     padding: MediaQuery.of(context).padding.top,
+                //   ),
+                // ),
+                views[state.viewIndex],
                 Container(
                   alignment: Alignment.topLeft,
                   height: 50 + MediaQuery.of(context).padding.top,

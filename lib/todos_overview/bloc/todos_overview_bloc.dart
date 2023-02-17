@@ -37,7 +37,7 @@ class TodosOverviewBloc extends Bloc<TodosOverviewEvent, TodosOverviewState> {
     TodosOverviewViewChanged event,
     Emitter<TodosOverviewState> emit,
   ) async {
-    emit(state.copyWith(status: () => TodosOverviewStatus.loading));
+    emit(state.copyWith(viewIndex: () => event.index));
   }
 
   Future<void> _onTodoChanged(

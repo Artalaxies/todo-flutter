@@ -28,8 +28,8 @@ class TodosOverviewState extends Equatable {
     TodosOverviewStatus Function()? status,
     List<Todo> Function()? todos,
     TodosViewFilter Function()? filter,
-    Todo? Function()? lastDeletedTodo,
     int Function()? viewIndex,
+    Todo? Function()? lastDeletedTodo,
   }) {
     return TodosOverviewState(
       status: status != null ? status() : this.status,
@@ -42,10 +42,12 @@ class TodosOverviewState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         status,
         todos,
         filter,
+        viewIndex,
         lastDeletedTodo,
       ];
 }

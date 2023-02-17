@@ -8,6 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todos/app/tabs_cubit/general_tabs_cubit.dart';
 import 'package:todos/app/user_bloc/general_user_bloc.dart';
+import 'package:todos/todos_overview/todos_overview.dart';
+
+import '../widgets/general_page_navigation_rail.dart';
 
 class GeneralPageFrame extends StatelessWidget {
   const GeneralPageFrame({
@@ -37,11 +40,16 @@ class GeneralPageFrameView extends StatelessWidget {
       (GeneralTabsCubit cubit) => cubit.state.tab,
     );
     final authUser = context.read<GeneralUserBloc>().state.user;
-
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: ColoredBox(
         color: const Color(0xFFE8E0C2),
-        child: page,
+        child: size.width < 700
+            ? page
+            : GeneralPageNavigationRail(
+                rail: const TodosOverviewPage(),
+                child: page,
+              ),
       ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       // floatingActionButton: FloatingActionButton(

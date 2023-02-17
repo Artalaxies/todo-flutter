@@ -126,9 +126,9 @@ class TimeRulerCustomPainter extends CustomPainter {
 
     if (diffInMinutes > 5) {
       final path = Path()
-        ..moveTo(size.width / 2 - 10, size.height * 0.5 + 10)
-        ..lineTo(size.width / 2, size.height * 0.5)
-        ..lineTo(size.width / 2 + 10, size.height * 0.5 + 10);
+        ..moveTo(size.width / 2 - 10, size.height / 2 + 10)
+        ..lineTo(size.width / 2, size.height / 2)
+        ..lineTo(size.width / 2 + 10, size.height / 2 + 10);
       final paint = Paint()
         ..color = Colors.blue
         ..style = PaintingStyle.stroke
@@ -143,11 +143,19 @@ class TimeRulerCustomPainter extends CustomPainter {
           ..strokeWidth = 8,
       );
     } else {
-      canvas.drawCircle(
-        Offset(size.width / 2, size.height * 0.8),
-        5,
-        Paint()..color = Colors.black54,
-      );
+      final path = Path()
+        ..moveTo(size.width / 2 - 10, size.height / 2 + 20)
+        ..lineTo(size.width / 2 + 10, size.height / 2 + 20);
+      final paint = Paint()
+        ..color = Colors.black26
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 4;
+      canvas.drawPath(path, paint);
+      // canvas.drawCircle(
+      //   Offset(size.width / 2, size.height * 0.8),
+      //   5,
+      //   Paint()..color = Colors.black54,
+      // );
     }
 
     if (_minutes == 0) {
@@ -160,7 +168,7 @@ class TimeRulerCustomPainter extends CustomPainter {
                 ))
               .build()
             ..layout(const ParagraphConstraints(width: 100)),
-          Offset(size.width / 2 - 30, 10),
+          Offset(size.width / 2 - 15, 10),
         );
       }
       if (date.hour == 12) {
