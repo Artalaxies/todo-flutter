@@ -1,3 +1,9 @@
+## 0.1.3
+
+- Added responsive layer
+- Updated task view implementation
+- Updated Scrolling duration;
+
 ## 0.1.0
 
 - Implemented multiple views for tasks
