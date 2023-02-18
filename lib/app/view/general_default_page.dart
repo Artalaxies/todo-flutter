@@ -10,10 +10,13 @@ class GeneralDefaultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    final theme = Theme.of(context);
+
+    return Center(
       child: Icon(
         Icons.adjust_rounded,
         size: 50,
+        color: theme.colorScheme.secondary,
       ),
     );
   }

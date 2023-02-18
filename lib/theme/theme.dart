@@ -12,9 +12,10 @@ class FlutterTodosTheme {
           color: Color(0xFF13B9FF),
         ),
         colorScheme: ColorScheme.fromSwatch(
-          accentColor: const Color(0xFFE8E0C2),
-          backgroundColor: const Color(0xFFC0B89E),
-        ),
+            accentColor: const Color(0xFFE8E0C2),
+            backgroundColor: const Color(0xFFC0B89E),
+            errorColor: const Color(0xFF7C7765),
+            cardColor: const Color(0xFF7C7765)),
         snackBarTheme: const SnackBarThemeData(
           behavior: SnackBarBehavior.floating,
         ),

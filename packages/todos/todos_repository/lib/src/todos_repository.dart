@@ -1,5 +1,4 @@
  import 'package:todos_api/todos_api.dart';
- import 'package:flutter/widgets.dart';
 
 /// {@template todos_repository}
 /// A repository that handles todo related requests.

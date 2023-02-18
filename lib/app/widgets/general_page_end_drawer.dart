@@ -31,17 +31,26 @@ class GeneralPageEndDrawer extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ListTile(
-              title: const Text('Sign In'),
-              onTap: () {
-                if (context.read<GeneralUserBloc>().state.user.isEmpty) {
-                  context.go('/login');
-                }
-              },
-            ),
+            ...context.read<GeneralUserBloc>().state.user.isEmpty
+                ? [
+                    ListTile(
+                      title: const Text('Sign In'),
+                      onTap: () {
+                        context.go('/login');
+                      },
+                    ),
+                  ]
+                : [
+                    ListTile(
+                      title: const Text('logout'),
+                      onTap: () {},
+                    ),
+                  ],
             ListTile(
               title: const Text('Integrations'),
-              onTap: () {},
+              onTap: () {
+                context.go('/integrations');
+              },
             ),
             FutureBuilder(
               future: PackageInfo.fromPlatform(),
@@ -50,12 +59,16 @@ class GeneralPageEndDrawer extends StatelessWidget {
                   'v${snapshot.data?.version ?? '0.0.0'}',
                 ),
                 onTap: () {
-                  if (context.read<GeneralUserBloc>().state.user.isEmpty) {
-                    context.go('/logs');
-                  }
+                  context.go('/logs');
                 },
               ),
-            )
+            ),
+            ListTile(
+              title: const Text('Suggest'),
+              onTap: () {
+                context.go('/suggest');
+              },
+            ),
           ],
         ),
       ),

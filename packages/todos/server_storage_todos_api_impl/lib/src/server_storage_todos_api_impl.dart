@@ -6,7 +6,6 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:local_storage_todos_api_impl/local_storage_todos_api.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todos_api/todos_api.dart';
 
 /// {@template local_storage_todos_api}

@@ -107,6 +107,7 @@ class _TodosOverviewInfiniteTimeView extends StatelessWidget {
               backgroundColor: Colors.transparent,
               floatingActionButton: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
                     color: Colors.black,

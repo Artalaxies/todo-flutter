@@ -10,15 +10,19 @@ class GeneralNotFoundPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Icon(
-          Icons.cruelty_free,
-          size: 50,
-        ),
-        Text('Page Not Found.'),
-      ],
+    final theme = Theme.of(context);
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.cruelty_free,
+            size: 50,
+            color: theme.colorScheme.error,
+          ),
+          const Text('Page Not Found.'),
+        ],
+      ),
     );
   }
 }

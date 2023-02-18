@@ -12,21 +12,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todos/bootstrap.dart';
 import 'package:todos/firebase_options.dart';
 import 'package:todos/platforms/web_plugins_locator.dart'
-if (dart.library.js) 'package:flutter_web_plugins/flutter_web_plugins.dart';
-
+    if (dart.library.js) 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setUrlStrategy(PathUrlStrategy());
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  final auth = FirebaseAuth.instance;
+  final app = await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform);
+  final auth = FirebaseAuth.instanceFor(app: app);
   final functions = FirebaseFunctions.instance;
-
 
   final todosApi = ServerStorageTodosApiImpl(
     plugin: await SharedPreferences.getInstance(),
     functions: functions,
   );
 
-  bootstrap(todosApi: todosApi, auth:  auth);
+  bootstrap(todosApi: todosApi, auth: auth);
 }

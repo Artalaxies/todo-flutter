@@ -32,15 +32,24 @@
   <title>todo_flutter</title>
   <link href="manifest.json" rel="manifest">
 
+  <link href="background.css" rel="stylesheet">
+
   <script>
     // The value below is injected by flutter build, do not touch.
     var serviceWorkerVersion = null;
+
 
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script defer src="flutter.js"></script>
 </head>
-<body>
+<body style="background-color:#404040;">
+<!--background-->
+<div style="
+position: absolute;top: 50%;left: 50%; transform: translate(-50%, -50%);">
+  <div class="lds-dual-ring"></div>
+</div>
+<!--background-->
 <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js

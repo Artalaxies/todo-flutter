@@ -9,11 +9,10 @@ import 'package:go_router/go_router.dart';
 import 'package:todos/app/tabs_cubit/general_tabs_cubit.dart';
 import 'package:todos/app/user_bloc/general_user_bloc.dart';
 import 'package:todos/app/view/general_not_found_page.dart';
+import 'package:todos/app/widgets/avatar.dart';
 import 'package:todos/app/widgets/general_page_end_drawer.dart';
 import 'package:todos/app/widgets/general_page_navigation_rail.dart';
 import 'package:todos/todos_overview/todos_overview.dart';
-
-import '../widgets/avatar.dart';
 
 class GeneralPageFrame extends StatelessWidget {
   const GeneralPageFrame({
@@ -81,7 +80,9 @@ class GeneralPageFrameView extends StatelessWidget {
                       //   context.go('/login');
                       // }
                     },
-                    icon: const Avatar(),
+                    icon: Avatar(
+                      photo: context.read<GeneralUserBloc>().state.user.photo,
+                    ),
                   ),
                 ),
               ],
