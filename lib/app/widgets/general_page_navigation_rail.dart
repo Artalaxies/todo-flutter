@@ -33,9 +33,22 @@ class GeneralPageNavigationRail extends StatelessWidget {
                 width: MediaQuery.of(context).size.width - 500,
                 child: () {
                   if (GoRouter.of(context).location == '/') {
-                    return GeneralDefaultPage();
+                    return const GeneralDefaultPage();
                   } else {
-                    return child ?? const GeneralDefaultPage();
+                    return Scaffold(
+                      backgroundColor: Colors.transparent,
+                      appBar: AppBar(
+                        backgroundColor: theme.drawerTheme.backgroundColor,
+                        automaticallyImplyLeading: false,
+                        leading: IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          onPressed: () {
+                            context.go('/');
+                          },
+                        ),
+                      ),
+                      body: child ?? const GeneralDefaultPage(),
+                    );
                   }
                 }(),
               ),
