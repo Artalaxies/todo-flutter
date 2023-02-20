@@ -13,10 +13,19 @@ class GeneralDefaultPage extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Center(
-      child: Icon(
-        Icons.adjust_rounded,
-        size: 50,
-        color: theme.colorScheme.secondary,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.adjust_rounded,
+            size: 50,
+            color: theme.colorScheme.secondary,
+          ),
+          Text(
+            'Do Something?',
+            style: TextStyle(color: theme.colorScheme.secondary),
+          ),
+        ],
       ),
     );
   }

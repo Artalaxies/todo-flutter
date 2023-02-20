@@ -43,7 +43,11 @@ class GeneralPageEndDrawer extends StatelessWidget {
                 : [
                     ListTile(
                       title: const Text('logout'),
-                      onTap: () {},
+                      onTap: () {
+                        context
+                            .read<GeneralUserBloc>()
+                            .add(const GeneralUserLogoutRequested());
+                      },
                     ),
                   ],
             ListTile(
