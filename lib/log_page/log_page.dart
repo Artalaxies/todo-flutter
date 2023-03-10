@@ -5,7 +5,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:todos/l10n/l10n.dart';
 
 class LogPage extends StatelessWidget {
@@ -15,17 +14,9 @@ class LogPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon( Icons.arrow_back),
-          onPressed: (){
-            context.go('/');
-          },
-        ),
-        title: const Text('Logs'),
-      ),
-      body: FutureBuilder(
+    return SingleChildScrollView(
+      controller: ScrollController(),
+      child: FutureBuilder(
         future: rootBundle.loadString('CHANGELOG.md'),
         builder: (context, snapshot) {
           return Text(snapshot.data ?? '');

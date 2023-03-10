@@ -9,7 +9,7 @@ class FlutterTodosTheme {
   static ThemeData get light {
     return ThemeData(
         appBarTheme: const AppBarTheme(
-          color: Color(0xFF13B9FF),
+          backgroundColor: Color(0xFFC0B89E),
         ),
         colorScheme: ColorScheme.fromSwatch(
             accentColor: const Color(0xFFE8E0C2),
@@ -27,7 +27,7 @@ class FlutterTodosTheme {
   static ThemeData get dark {
     return ThemeData(
       appBarTheme: const AppBarTheme(
-        color: Color(0xFF13B9FF),
+        backgroundColor: Color(0xFFC0B89E),
       ),
       colorScheme: ColorScheme.fromSwatch(
         brightness: Brightness.dark,

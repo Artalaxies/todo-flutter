@@ -4,25 +4,19 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todos/app/app_bloc_provider.dart';
-import 'package:todos/app/router/app_router.dart';
-import 'package:todos/app/view/general_page_frame.dart';
-import 'package:todos/l10n/l10n.dart';
-import 'package:todos/theme/theme.dart';
 
-class App<T> extends StatelessWidget {
-  const App({super.key,
-    required this.repositoryProviders,});
+import '/app/router/app_router.dart';
+import '/app/view/general_page_frame.dart';
+import '/l10n/l10n.dart';
+import '/theme/theme.dart';
+import '../module.dart';
 
-  final List<RepositoryProvider<T>> repositoryProviders;
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-      providers: repositoryProviders,
-      child: appBlocProviders(const AppView()),
-    );
+    return Modularization.build(const AppView());
   }
 }
 

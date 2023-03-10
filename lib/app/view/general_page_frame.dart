@@ -78,17 +78,18 @@ class GeneralPageFrameView extends StatelessWidget {
                       Scaffold.of(context).openEndDrawer();
                       // if(context.read<GeneralUserBloc>().state.user.isEmpty){
                       //   context.go('/login');
-                      // }
-                    },
-                    icon: Avatar(
-                      photo: context.read<GeneralUserBloc>().state.user.photo,
+                        // }
+                      },
+                      icon: Avatar(
+                        photo: context.read<GeneralUserBloc>().state.user.photo,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ])
+          ],
+        )
         // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
         // floatingActionButton: FloatingActionButton(
         //   key: const Key('homeView_addTodo_floatingActionButton'),

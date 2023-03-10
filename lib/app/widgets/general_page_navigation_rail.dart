@@ -5,8 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import '../view/general_default_page.dart';
+import 'package:todos/app/view/general_default_page.dart';
 
 class GeneralPageNavigationRail extends StatelessWidget {
   const GeneralPageNavigationRail({super.key, this.rail, this.child});
@@ -38,7 +37,7 @@ class GeneralPageNavigationRail extends StatelessWidget {
                     return Scaffold(
                       backgroundColor: Colors.transparent,
                       appBar: AppBar(
-                        backgroundColor: theme.drawerTheme.backgroundColor,
+                        backgroundColor: theme.appBarTheme.backgroundColor,
                         automaticallyImplyLeading: false,
                         leading: IconButton(
                           icon: const Icon(Icons.arrow_back),

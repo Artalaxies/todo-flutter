@@ -14,6 +14,7 @@ class GeneralPageEndDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       alignment: Alignment.topRight,
       padding: EdgeInsets.only(
@@ -26,7 +27,7 @@ class GeneralPageEndDrawer extends StatelessWidget {
         minWidth: 200,
       ),
       child: ColoredBox(
-        color: Colors.white54,
+        color: theme.colorScheme.secondary,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,23 +36,26 @@ class GeneralPageEndDrawer extends StatelessWidget {
                 ? [
                     ListTile(
                       title: const Text('Sign In'),
+                      selectedColor: Colors.white12,
                       onTap: () {
                         context.go('/login');
                       },
                     ),
-                  ]
+            ]
                 : [
-                    ListTile(
-                      title: const Text('logout'),
+              ListTile(
+                title: const Text('logout'),
+                      selectedColor: Colors.white12,
                       onTap: () {
                         context
                             .read<GeneralUserBloc>()
                             .add(const GeneralUserLogoutRequested());
                       },
                     ),
-                  ],
+            ],
             ListTile(
               title: const Text('Integrations'),
+              selectedColor: Colors.white12,
               onTap: () {
                 context.go('/integrations');
               },
@@ -62,6 +66,7 @@ class GeneralPageEndDrawer extends StatelessWidget {
                 title: Text(
                   'v${snapshot.data?.version ?? '0.0.0'}',
                 ),
+                selectedColor: Colors.white12,
                 onTap: () {
                   context.go('/logs');
                 },
@@ -69,6 +74,7 @@ class GeneralPageEndDrawer extends StatelessWidget {
             ),
             ListTile(
               title: const Text('Suggest'),
+              selectedColor: Colors.white12,
               onTap: () {
                 context.go('/suggest');
               },
