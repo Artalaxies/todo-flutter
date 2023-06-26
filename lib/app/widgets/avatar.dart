@@ -24,7 +24,7 @@ class Avatar extends StatelessWidget {
           ? Icon(
               Icons.person_outline,
               size: _avatarSize,
-              color: theme.appBarTheme.color,
+              color: theme.appBarTheme.foregroundColor,
             )
           : null,
     );

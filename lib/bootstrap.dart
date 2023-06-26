@@ -12,12 +12,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todos/app/app.dart';
 import 'package:todos/app/app_bloc_observer.dart';
+import 'package:todos/app/tabs_cubit/general_tabs_cubit.dart';
+import 'package:todos/app/user_bloc/general_user_bloc.dart';
 import 'package:todos/module.dart';
 import 'package:todos_api/todos_api.dart';
 import 'package:todos_repository/todos_repository.dart';
-
-import 'app/tabs_cubit/general_tabs_cubit.dart';
-import 'app/user_bloc/general_user_bloc.dart';
 
 void bootstrap({required TodosApi todosApi, FirebaseAuth? auth}) {
   FlutterError.onError = (details) {
